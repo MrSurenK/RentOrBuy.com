@@ -1,2 +1,3 @@
-# rentorbuy
-Online car dealer rental and sales full stack project. 
+# RentOrBuy.com
+
+Online car dealer rental and sales full stack project.
