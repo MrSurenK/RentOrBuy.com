@@ -1,12 +1,13 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.core.validators import RegexValidator
+import uuid
 
 
+# Create your models here
 
-# Create your models here.
 
-
+# Create Customer Account and Table
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, age, contact_no, address, nric, password=None):
         if not email:
@@ -30,7 +31,8 @@ class CustomUserManager(BaseUserManager):
 
 
 nric_validator = RegexValidator(
-    regex='^[STFGstfg]\d{7}[a-zA-Z]$', # https://stackoverflow.com/questions/29743154/regular-expression-for-nric-fin-in-singapore
+    regex='^[STFGstfg]\d{7}[a-zA-Z]$',
+    # https://stackoverflow.com/questions/29743154/regular-expression-for-nric-fin-in-singapore
     message='NRIC must be in the format: ^[STFGstfg]\d{7}[a-zA-Z]$',
     code='invalid_nric'
 )
@@ -41,11 +43,13 @@ sg_num_validator = RegexValidator(
     code='invalid_contact_number'
 )
 
+
 class CustomerAccount(AbstractBaseUser):
     nric = models.CharField(max_length=9, unique=True, primary_key=True, validators=[nric_validator])
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    profile_pic = models.ImageField(upload_to='profile_pics/', null=True, blank=True, default='profile_pics/default.jpg')
+    profile_pic = models.ImageField(upload_to='profile_pics/', null=True, blank=True,
+                                    default='profile_pics/default.jpg')
     age = models.SmallIntegerField()
     email = models.EmailField(unique=True)
     contact_no = models.CharField(max_length=12, validators=[sg_num_validator])
@@ -53,7 +57,6 @@ class CustomerAccount(AbstractBaseUser):
     valid_license = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     account_creation_date = models.DateTimeField(auto_now_add=True)
-
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
@@ -62,6 +65,13 @@ class CustomerAccount(AbstractBaseUser):
         return f'{self.nric}, {self.email}, {self.first_name}'
 
 
+    # Rental Transcations model
+
+    class Rentals(models.Model):
+        transaction_id = models.CharField(max_length=40, primary_key=True, editable=False, unique=True) #Char40) beacuse UUID itslef is 36 characters and together with TRA- it will be 40
+        customer_account = models.ForeignKey(CustomerAccount, on_delete=models.CASCADE, related_name='rental_receipts')
+        transaction_amount = models.PositiveIntegerField()
+        transaction_date = models.DateTimeField(auto_now_add=True)
 
 
 
@@ -72,21 +82,16 @@ class CustomerAccount(AbstractBaseUser):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        # When you create a new Rentals object and call its save method, this custom implementation will execute.
+        # If transaction_id has not been set, it will generate a new, unique ID, prefix it with "TRA-", and assign it to self.transaction_id.
+        # It will then proceed to save the object to the database, including the newly generated transaction_id.
+        def save(self, *args, **kwargs):
+            if not self.transaction_id:
+                self.transaction_id = f'TRA-{uuid.uuid4()}'
+            # You call save() on a Rentals object.
+            # The save method in Rentals checks if transaction_id is already set. If not, it sets it.
+            # super(Rentals, self).save(*args, **kwargs) is called to actually save the object to the database, using Django's built-in functionality.
+            super(Rentals, self).save(*args, **kwargs)
 
 
 
