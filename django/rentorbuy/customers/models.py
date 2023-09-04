@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from dealer.models import Car
 from django.core.validators import RegexValidator
+from django.utils.translation import gettext_lazy as _
 import uuid
 
 
@@ -148,6 +149,30 @@ class Fine(models.Model):
     registration_no = models.ForeignKey(Car, on_delete=models.SET_NULL, null=True, related_name='customer_fines')
     fine_description = models.TextField()
     date_created = models.DateTimeField()
+
+class Insurance(models.Model):
+
+    # _() is to make the code language friendly. [ from django.utils.translation import gettext_lazy as _ ]
+    class Policy_Type(models.IntegerChoices):
+        THIRD_PARTY = 1, _('THIRD_PARTY')
+        TPFT = 2, _('THIRD_PARTY_FIRE_AND_THEFT')
+        COMP = 3, _('Comprehensive')
+
+    id = models.AutoField(primary_key=True)
+    registration_no = models.ForeignKey(Car, on_delete=models.SET_NULL, null=True, related_name='customer_insurance')
+    transaction_id = models.ForeignKey(Rental, on_delete=models.SET_NULL, null=True, related_name='customer_insurance')
+    start_date = models.DateField()
+    end_date = models.DateField()
+    premium = models.DecimalField(max_digits=10, decimal_places=2)
+    coverage_type = models.IntegerField(default=Policy_Type.COMP, choices=Policy_Type.choices)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+
+
+
+
+
+
+
 
 
 

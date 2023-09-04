@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
+from customers.model import CutomerAccount, Rental, CarSale, Complaint, Fine, Insurance
 import uuid
 
 
@@ -51,4 +52,7 @@ class Car(models.Model):
         elif self.vehicle_type == (self.CarType.SEDAN or self.vehicle_type == self.CarType.HATCHBACK) and self.seat_capacity != 4:
             raise ValidationError('Sedans must have a seat capacity of 4')
         super(Car, self).save(*args, **kwargs)
+
+
+
 
