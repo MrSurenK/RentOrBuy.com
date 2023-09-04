@@ -62,6 +62,18 @@ class Discount(models.Model):
     description = models.TextField()
 
 
+# Rental listing will be able to delete as it is not referenced as a parent table anywhere
+class RentalListing(models.Model):
+    id = models.AutoField(primary_key=True)
+    car_id = models.OneToOneField(Car, on_delete=models.SET_NULL, null=True, related_name="rental_post")
+    rental_rate = models.DecimalField(max_digits=6, decimal_places=2)
+    listing_date = models.DateField(auto_now_add=True)
+    drive_to_malaysia = models.BooleanField(default=True)
+
+
+
+
+
 
 
 
