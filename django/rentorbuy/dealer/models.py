@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
-from customers.model import CutomerAccount, Rental, CarSale, Complaint, Fine, Insurance
 import uuid
 
 
@@ -52,6 +51,18 @@ class Car(models.Model):
         elif self.vehicle_type == (self.CarType.SEDAN or self.vehicle_type == self.CarType.HATCHBACK) and self.seat_capacity != 4:
             raise ValidationError('Sedans must have a seat capacity of 4')
         super(Car, self).save(*args, **kwargs)
+
+
+class Discount(models.Model):
+    id = models.AutoField(primary_key=True)
+    sale_id = models.ForeignKey('customers.CarSale', on_delete=models.SET_NULL, null=True, related_name='discount_model')
+    percentage = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True) # % of discount to be awareded if dealer chooses to do so
+    amount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True) # nominal discount value if dealer chooses to give any
+    description = models.TextField()
+
+
+
+
 
 
 

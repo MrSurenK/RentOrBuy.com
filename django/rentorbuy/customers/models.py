@@ -150,6 +150,7 @@ class Fine(models.Model):
     fine_description = models.TextField()
     date_created = models.DateTimeField()
 
+
 class Insurance(models.Model):
 
     # _() is to make the code language friendly. [ from django.utils.translation import gettext_lazy as _ ]
@@ -159,8 +160,8 @@ class Insurance(models.Model):
         COMP = 3, _('Comprehensive')
 
     id = models.AutoField(primary_key=True)
-    registration_no = models.ForeignKey(Car, on_delete=models.SET_NULL, null=True, related_name='customer_insurance')
-    transaction_id = models.ForeignKey(Rental, on_delete=models.SET_NULL, null=True, related_name='customer_insurance')
+    registration_no = models.OneToOneField(Car, on_delete=models.SET_NULL, null=True, related_name='insurance_policy')
+    transaction_id = models.OneToOneField(Rental, on_delete=models.SET_NULL, null=True, related_name='insurance_policy')
     start_date = models.DateField()
     end_date = models.DateField()
     premium = models.DecimalField(max_digits=10, decimal_places=2)
