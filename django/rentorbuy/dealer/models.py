@@ -61,14 +61,22 @@ class Discount(models.Model):
     amount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True) # nominal discount value if dealer chooses to give any
     description = models.TextField()
 
-
+# Rental and sale listing will be on delete cascade as if the car does not exist, the listing should not as well.
+# However, as other tables depend on car id, by design car will not be deleted
 # Rental listing will be able to delete as it is not referenced as a parent table anywhere
 class RentalListing(models.Model):
     id = models.AutoField(primary_key=True)
-    car_id = models.OneToOneField(Car, on_delete=models.SET_NULL, null=True, related_name="rental_post")
+    car_id = models.OneToOneField(Car, on_delete=models.CASCADE, related_name="rental_post")
     rental_rate = models.DecimalField(max_digits=6, decimal_places=2)
     listing_date = models.DateField(auto_now_add=True)
     drive_to_malaysia = models.BooleanField(default=True)
+
+# Sale listing will be able to delete as it is not referenced as a parent table anywhere
+class SaleListing(models.Model):
+    id = models.AutoField(primary_key=True)
+    car_id = models.OneToOneField(Car, on_delete=models.CASCADE, related_name="sale_post")
+    sale_price = models.PositiveBigIntegerField()
+    listing_date = models.DateField(auto_now_add=True)
 
 
 
