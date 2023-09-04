@@ -64,6 +64,7 @@ class CustomerAccount(AbstractBaseUser):
     def __str__(self):
         return f'{self.nric}, {self.email}, {self.first_name}'
 
+
 # Rental Transcations model
 class Rental(models.Model):
     class Status(models.TextChoices):
@@ -72,10 +73,13 @@ class Rental(models.Model):
         RETURNED = 'RE', 'Returned',
         OVERDUE = 'OD', 'Over Due'
 
-    transaction_id = models.CharField(max_length=40, primary_key=True, editable=False, unique=True) #Char40) beacuse UUID itslef is 36 characters and together with TRA- it will be 40
+    transaction_id = models.CharField(max_length=40, primary_key=True, editable=False,
+                                      unique=True)  # Char40) beacuse UUID itslef is 36 characters and together with TRA- it will be 40
     # One to many rls is implied by Django with foreign key so no need to specify
-    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.CASCADE, related_name='rental_receipts') #related name allows us to fetch all rental receipts of customer
-    rental_price = models.DecimalField(max_digits=6, decimal_places=2) # Have to create car fleet table and specify car rental rate
+    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.CASCADE,
+                                      related_name='rental_receipts')  # related name allows us to fetch all rental receipts of customer
+    rental_price = models.DecimalField(max_digits=6,
+                                       decimal_places=2)  # Have to create car fleet table and specify car rental rate
     transaction_amount = models.DecimalField(max_digits=6, decimal_places=2)
     early_termination = models.BooleanField(default=False)
     refunds = models.IntegerField(null=True, blank=True)
@@ -98,12 +102,23 @@ class Rental(models.Model):
         # super(Rentals, self).save(*args, **kwargs) is called to actually save the object to the database, using Django's built-in functionality.
         super(Rental, self).save(*args, **kwargs)
 
+# Customer complaints
+class Complaint(models.Model):
+    class Outcome(models.TextChoices):
+        PENDING = 'PEN', 'Pending'
+        RESOLVED = 'RES', 'Resolved'
+        UNRESOLVED = 'UR', 'Unresolved'
 
+    complaint_id = models.CharField(max_length=40, primary_key=True, unique=True, editable=False)
+    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.CASCADE, related_name='customer_complaints')
+    complaint_outcome = models.CharField(max_length=3, choices=Outcome.choices)
+    complaint_description = models.TextField()
+    date_log = models.DateTimeField(null=True, auto_now_add=True, editable=False)
 
-
-
-
-
+    def save(self, *args, **kwargs):
+        if not self.complaint_id:
+            self.complaint_id = f'COM-{uuid.uuid4()}'
+        super(Complaint, self).save(*args, **kwargs)
 
 
 
