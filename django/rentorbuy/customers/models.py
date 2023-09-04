@@ -64,40 +64,41 @@ class CustomerAccount(AbstractBaseUser):
     def __str__(self):
         return f'{self.nric}, {self.email}, {self.first_name}'
 
-    # Rental Transcations model
-    class Rentals(models.Model):
-        class Status(models.TextChoices):
-            NOT_COLLECTED = 'NC', 'Not collected'
-            COLLECTED = 'CO', 'Collected',
-            RETURNED = 'RE', 'Returned',
-            OVERDUE = 'OD', 'Over Due'
+# Rental Transcations model
+class Rentals(models.Model):
+    class Status(models.TextChoices):
+        NOT_COLLECTED = 'NC', 'Not collected'
+        COLLECTED = 'CO', 'Collected',
+        RETURNED = 'RE', 'Returned',
+        OVERDUE = 'OD', 'Over Due'
 
-        transaction_id = models.CharField(max_length=40, primary_key=True, editable=False, unique=True) #Char40) beacuse UUID itslef is 36 characters and together with TRA- it will be 40
-        # One to many rls is implied by Django with foreign key so no need to specify
-        customer_nric= models.ForeignKey(CustomerAccount, on_delete=models.CASCADE, related_name='rental_receipts') #related name allows us to fetch all rental receipts of customer
-        rental_price = models.DecimalField(max_digits=6, decimal_places=2) # Have to create car fleet table and specify car rental rate
-        transaction_amount = models.DecimalField(max_digits=6, decimal_places=2)
-        early_termination = models.BooleanField(default=False)
-        refunds = models.IntegerField(null=True, blank=True)
-        transaction_date = models.DateTimeField(auto_now_add=True)
-        rental_start_date = models.DateTimeField()
-        rental_end_date = models.DateTimeField()
-        rental_status = models.CharField(max_length=2, choices=Status.choices)
+    transaction_id = models.CharField(max_length=40, primary_key=True, editable=False, unique=True) #Char40) beacuse UUID itslef is 36 characters and together with TRA- it will be 40
+    # One to many rls is implied by Django with foreign key so no need to specify
+    customer_nric= models.ForeignKey(CustomerAccount, on_delete=models.CASCADE, related_name='rental_receipts') #related name allows us to fetch all rental receipts of customer
+    rental_price = models.DecimalField(max_digits=6, decimal_places=2) # Have to create car fleet table and specify car rental rate
+    transaction_amount = models.DecimalField(max_digits=6, decimal_places=2)
+    early_termination = models.BooleanField(default=False)
+    refunds = models.IntegerField(null=True, blank=True)
+    transaction_date = models.DateTimeField(auto_now_add=True)
+    rental_start_date = models.DateTimeField()
+    rental_end_date = models.DateTimeField()
+    rental_status = models.CharField(max_length=2, choices=Status.choices)
 
 
 
-        # When you create a new Rentals object and call its save method, this custom implementation will execute.
-        # If transaction_id has not been set, it will generate a new, unique ID, prefix it with "TRA-", and assign it to self.transaction_id.
-        # It will then proceed to save the object to the database, including the newly generated transaction_id.
-        def save(self, *args, **kwargs):
-            if not self.transaction_id:
-                self.transaction_id = f'TRA-{uuid.uuid4()}'
-            # self.rental_price = self.cars.rental_rate  # Ensure the rental price matches the rental rate of the car
+    # When you create a new Rentals object and call its save method, this custom implementation will execute.
+    # If transaction_id has not been set, it will generate a new, unique ID, prefix it with "TRA-", and assign it to self.transaction_id.
+    # It will then proceed to save the object to the database, including the newly generated transaction_id.
+    def save(self, *args, **kwargs):
+        if not self.transaction_id:
+            self.transaction_id = f'TRA-{uuid.uuid4()}'
+        # self.rental_price = self.cars.rental_rate  # Ensure the rental price matches the rental rate of the car
 
-            # You call save() on a Rentals object.
-            # The save method in Rentals checks if transaction_id is already set. If not, it sets it.
-            # super(Rentals, self).save(*args, **kwargs) is called to actually save the object to the database, using Django's built-in functionality.
-            super(Rentals, self).save(*args, **kwargs)
+        # You call save() on a Rentals object.
+        # The save method in Rentals checks if transaction_id is already set. If not, it sets it.
+        # super(Rentals, self).save(*args, **kwargs) is called to actually save the object to the database, using Django's built-in functionality.
+        super(Rentals, self).save(*args, **kwargs)
+
 
 
 
