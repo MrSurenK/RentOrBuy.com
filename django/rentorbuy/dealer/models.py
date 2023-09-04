@@ -38,7 +38,7 @@ class Car(models.Model):
     depreciation = models.PositiveSmallIntegerField()
     mileage = models.PositiveIntegerField()
     road_tax_amount = models.PositiveSmallIntegerField()
-    is_avail = models.BooleanField()
+    is_avail = models.BooleanField(default=True)
 
     # Validation runs even when updates are made to the table via save method. 'Clean method' requires it to be called specifically
     def save(self, *args, **kwargs):

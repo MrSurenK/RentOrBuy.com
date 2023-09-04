@@ -76,7 +76,7 @@ class Rental(models.Model):
     transaction_id = models.CharField(max_length=40, primary_key=True, editable=False,
                                       unique=True)  # Char40) beacuse UUID itslef is 36 characters and together with TRA- it will be 40
     # One to many rls is implied by Django with foreign key so no need to specify
-    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.CASCADE,
+    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.SET_NULL, null=True
                                       related_name='rental_receipts')  # related name allows us to fetch all rental receipts of customer
     rental_price = models.DecimalField(max_digits=6,
                                        decimal_places=2)  # Have to create car fleet table and specify car rental rate
@@ -102,6 +102,50 @@ class Rental(models.Model):
         # super(Rentals, self).save(*args, **kwargs) is called to actually save the object to the database, using Django's built-in functionality.
         super(Rental, self).save(*args, **kwargs)
 
+# Sales Booking Table
+class CarSale(models.Model):
+    sale_id = models.CharField(max_length=39, primary_key=True, editable=False)
+    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.CASCADE, related_name='sales_booking')
+    car_id = models.ForeignKey(Car,on_delete=models.SET_NULL, null=True)
+    viewing_date = models.DateField()
+    viewing_time = models.TimeField()
+    is_sold = models.BooleanField(default=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def save(self, *args, **kwargs):
+        if not self.sale_apt_id:
+            self.complaint_id = f'BK-{uuid.uuid4()}'
+        super(SaleAppointment, self).save(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Customer complaints
 class Complaint(models.Model):
     class Outcome(models.TextChoices):
@@ -119,6 +163,9 @@ class Complaint(models.Model):
         if not self.complaint_id:
             self.complaint_id = f'COM-{uuid.uuid4()}'
         super(Complaint, self).save(*args, **kwargs)
+
+
+
 
 
 
