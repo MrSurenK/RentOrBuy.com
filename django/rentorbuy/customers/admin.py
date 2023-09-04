@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomerAccount
+from .models import CustomerAccount, Rental
 
 # Register your models here.
 
@@ -13,4 +13,5 @@ class CustomerAccountAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CustomerAccount, CustomerAccountAdmin)
+admin.site.register(Rental)
 
