@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+from dealer.models import Car
 from django.core.validators import RegexValidator
 import uuid
 
@@ -76,7 +77,7 @@ class Rental(models.Model):
     transaction_id = models.CharField(max_length=40, primary_key=True, editable=False,
                                       unique=True)  # Char40) beacuse UUID itslef is 36 characters and together with TRA- it will be 40
     # One to many rls is implied by Django with foreign key so no need to specify
-    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.SET_NULL, null=True
+    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.SET_NULL, null=True,
                                       related_name='rental_receipts')  # related name allows us to fetch all rental receipts of customer
     rental_price = models.DecimalField(max_digits=6,
                                        decimal_places=2)  # Have to create car fleet table and specify car rental rate
@@ -104,46 +105,20 @@ class Rental(models.Model):
 
 # Sales Booking Table
 class CarSale(models.Model):
-    sale_id = models.CharField(max_length=39, primary_key=True, editable=False)
-    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.CASCADE, related_name='sales_booking')
-    car_id = models.ForeignKey(Car,on_delete=models.SET_NULL, null=True)
+    sale_id = models.CharField(max_length=41, primary_key=True, editable=False)
+    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.SET_NULL, null=True, related_name='sales_booking')
+    car_id = models.ForeignKey(Car, on_delete=models.DO_NOTHING, null=True)
     viewing_date = models.DateField()
     viewing_time = models.TimeField()
     is_sold = models.BooleanField(default=False)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    transaction_amount = models.DecimalField(max_digits=6, decimal_places=2)
+    transaction_date = models.DateTimeField(auto_now_add=True)
+    cancel_apt = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        if not self.sale_apt_id:
-            self.complaint_id = f'BK-{uuid.uuid4()}'
-        super(SaleAppointment, self).save(*args, **kwargs)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        if not self.sale_id:
+            self.sale_id = f'SELL-{uuid.uuid4()}'
+        super(CarSale, self).save(*args, **kwargs)
 
 
 # Customer complaints
@@ -154,7 +129,7 @@ class Complaint(models.Model):
         UNRESOLVED = 'UR', 'Unresolved'
 
     complaint_id = models.CharField(max_length=40, primary_key=True, unique=True, editable=False)
-    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.CASCADE, related_name='customer_complaints')
+    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.SET_NULL, null=True, related_name='customer_complaints')
     complaint_outcome = models.CharField(max_length=3, choices=Outcome.choices)
     complaint_description = models.TextField()
     date_log = models.DateTimeField(null=True, auto_now_add=True, editable=False)
