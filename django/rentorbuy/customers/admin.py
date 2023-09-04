@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomerAccount, Rental, Complaint, CarSale
+from .models import CustomerAccount, Rental, Complaint, CarSale, Fine
 
 # Register your models here.
 
@@ -16,4 +16,5 @@ admin.site.register(CustomerAccount, CustomerAccountAdmin)
 admin.site.register(Rental)
 admin.site.register(Complaint)
 admin.site.register(CarSale)
+admin.site.register(Fine)
 

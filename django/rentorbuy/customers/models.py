@@ -103,6 +103,7 @@ class Rental(models.Model):
         # super(Rentals, self).save(*args, **kwargs) is called to actually save the object to the database, using Django's built-in functionality.
         super(Rental, self).save(*args, **kwargs)
 
+
 # Sales Booking Table
 class CarSale(models.Model):
     sale_id = models.CharField(max_length=41, primary_key=True, editable=False)
@@ -138,6 +139,23 @@ class Complaint(models.Model):
         if not self.complaint_id:
             self.complaint_id = f'COM-{uuid.uuid4()}'
         super(Complaint, self).save(*args, **kwargs)
+
+
+class Fine(models.Model):
+    fine_id = models.AutoField(primary_key=True)
+    fine_amount = models.DecimalField(max_digits=6, decimal_places=2)
+    customer_nric = models.ForeignKey(CustomerAccount, on_delete=models.SET_NULL, null=True, related_name='customer_fines')
+    registration_no = models.ForeignKey(Car, on_delete=models.SET_NULL, null=True, related_name='customer_fines')
+    fine_description = models.TextField()
+    date_created = models.DateTimeField()
+
+
+
+
+
+
+
+
 
 
 
