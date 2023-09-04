@@ -39,6 +39,7 @@ class Car(models.Model):
     mileage = models.PositiveIntegerField()
     road_tax_amount = models.PositiveSmallIntegerField()
     is_avail = models.BooleanField(default=True)
+    vehicle_image = models.ImageField(upload_to='car_pics', null=True, blank=True)
 
     # Validation runs even when updates are made to the table via save method. 'Clean method' requires it to be called specifically
     def save(self, *args, **kwargs):
@@ -59,6 +60,9 @@ class Discount(models.Model):
     percentage = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True) # % of discount to be awareded if dealer chooses to do so
     amount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True) # nominal discount value if dealer chooses to give any
     description = models.TextField()
+
+
+
 
 
 
