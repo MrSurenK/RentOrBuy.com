@@ -49,8 +49,8 @@ class Car(models.Model):
             raise ValidationError('Sports cars must have a seat capacity of 2')
         elif self.vehicle_type == self.CarType.MPV and self.seat_capacity != 7:
             raise ValidationError('MPVs must have a seat capacity of 7')
-        elif self.vehicle_type == (self.CarType.SEDAN or self.vehicle_type == self.CarType.HATCHBACK) and self.seat_capacity != 4:
-            raise ValidationError('Sedans must have a seat capacity of 4')
+        elif self.vehicle_type == (self.CarType.SEDAN or self.vehicle_type == self.CarType.HATCHBACK) and self.seat_capacity != 5:
+            raise ValidationError('Sedans must have a seat capacity of 5')
         super(Car, self).save(*args, **kwargs)
 
 
