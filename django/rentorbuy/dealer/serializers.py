@@ -14,7 +14,7 @@ class CarSerializer(serializers, ModelSerializer):
 class SaleListingSerializer(serializers, ModelSerializer):
     class Meta:
         model = SaleListing
-        fields =
+        fields = '__all__'
 
 
 
