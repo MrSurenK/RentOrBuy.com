@@ -89,5 +89,3 @@ class SaleListing(models.Model):
 
 
 
-
-
