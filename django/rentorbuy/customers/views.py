@@ -35,17 +35,24 @@ class CreateCustomerAccount(APIView):
                             status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # Check if a user with the given 'nric' already exists
-            customer = CustomerAccount.objects.get(nric=nric)
+            customer_by_nric = CustomerAccount.objects.get(nric=nric)
         except CustomerAccount.DoesNotExist:
-            customer = None
+            customer_by_nric = None
 
-        if customer:
-            # If customer exists and is inactive, activate the account
-            if not customer.is_active:
-                customer.is_active = True
-                customer.save()
-                return Response({'message': 'Account reactivated'}, status=status.HTTP_200_OK)
+        try:
+            customer_by_email = CustomerAccount.objects.get(email=email)
+        except CustomerAccount.DoesNotExist:
+            customer_by_email = None
+
+        if customer_by_nric or customer_by_email:
+            if customer_by_nric and not customer_by_nric.is_active:
+                customer_by_nric.is_active = True
+                customer_by_nric.save()
+                return Response({'message': 'Account with this nric reactivated'}, status=status.HTTP_200_OK)
+            elif customer_by_email and not customer_by_email.is_active:
+                customer_by_email.is_active = True
+                customer_by_email.save()
+                return Response({'message': 'Account with this email reactivated'}, status=status.HTTP_200_OK)
             else:
                 return Response({'error': 'Account with this nric or email already exists.'},
                                 status=status.HTTP_400_BAD_REQUEST)
@@ -60,7 +67,9 @@ class CreateCustomerAccount(APIView):
 
 
 class DeleteCustomerAccount(APIView):
-    def patch(self, request, nric):
+    permission_classes = (IsAuthenticated,)
+    def delete(self, request):
+        nric = request.user.nric
         try:
             customer = CustomerAccount.objects.get(nric=nric) #nric is the param
         except CustomerAccount.DoesNotExist:
@@ -79,7 +88,7 @@ class DeleteCustomerAccount(APIView):
 class GetCustomerAccount(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request):
-        nric = request.data.get("nric", None)
+        nric = request.user.nric
         if nric is None:
             return Response({"error": "NRIC is required"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -92,8 +101,9 @@ class GetCustomerAccount(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class CustomerRentalHistory(APIView):
+    permission_classes = (IsAuthenticated,)
     def post(self, request):
-        nric = request.data.get("nric", None)
+        nric = request.user.nric
         if nric is None:
             return Response({"error": "NRIC is required"}, status=status.HTTP_400_BAD_REQUEST)
         try:
@@ -105,6 +115,12 @@ class CustomerRentalHistory(APIView):
         serializer = RentalSerializer(rentals, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# class CustomerSaleHistory(APIView):
+#     def post(self, request):
+
+
 
 
 

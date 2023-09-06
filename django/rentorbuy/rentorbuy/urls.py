@@ -23,8 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('dealer/', include('dealer.urls')),
     path('customer/',include('customers.urls')),
-    path('jwt_api/', include('restful_apis.urls')),
-
+    path('login/', include('restful_apis.urls')),
 ]
 
 if settings.DEBUG:
