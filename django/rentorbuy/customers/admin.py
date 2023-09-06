@@ -5,7 +5,7 @@ from .models import CustomerAccount, Rental, Complaint, CarSale, Fine
 
 
 class CustomerAccountAdmin(admin.ModelAdmin):
-    exclude = ('last_login', 'valid_license', 'is_active')
+    list_display = [ field.name for field in CustomerAccount._meta.fields if field.name != 'password']
     fieldsets = (
         ('Mandatory Information', {'fields': ('email', 'password', 'first_name', 'last_name', 'nric', 'age', 'contact_no', 'address',)}),
         ('Additional Info', {'fields': ('profile_pic',)}),
