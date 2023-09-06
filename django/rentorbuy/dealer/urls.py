@@ -6,3 +6,5 @@ urlpatterns = [
     path('cars/forsale', CarSaleListView.as_view(), name='car-sale-list'),
     # ... your other URL patterns ...
 ]
+
+
