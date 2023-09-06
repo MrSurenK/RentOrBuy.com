@@ -1,8 +1,8 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import CustomerAccount, Rental
-from .serializers import CustomerAccountSerializer, RentalSerializer
+from .models import CustomerAccount, Rental, CarSale
+from .serializers import CustomerAccountSerializer, RentalSerializer, CarSaleSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
@@ -102,7 +102,7 @@ class GetCustomerAccount(APIView):
 
 class CustomerRentalHistory(APIView):
     permission_classes = (IsAuthenticated,)
-    def post(self, request):
+    def get(self, request):
         nric = request.user.nric
         if nric is None:
             return Response({"error": "NRIC is required"}, status=status.HTTP_400_BAD_REQUEST)
@@ -117,8 +117,25 @@ class CustomerRentalHistory(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# class CustomerSaleHistory(APIView):
-#     def post(self, request):
+class CustomerSaleHistory(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+        nric = request.user.nric
+        if nric is None:
+            return Response({"error": "NRIC is required"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            customer = CustomerAccount.objects.get(nric=nric)
+        except CustomerAccount.DoesNotExist:
+            return Response(status=status.HTTP_400_NOT_FOUND)
+
+        sales = CarSale.objects.filter(customer_nric=customer)
+        serializer = CarSaleSerializer(sales, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
 
 
 
