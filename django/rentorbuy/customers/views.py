@@ -134,6 +134,48 @@ class CustomerSaleHistory(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class EditSaleAppointment(APIView):
+    permission_classes = (IsAuthenticated,)
+    def patch(self, request, sale_id):
+        nric = request.user.nric
+
+        if not sale_id:
+            return Response({'error': "sale id must be provided in the url"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            sale_apt = CarSale.objects.get(sale_id=sale_id, customer_nric=nric)
+        except CarSale.DoesNotExist:
+            return Response({'error': "Car sale not found or you're not authorized to edit this sale."}, status=status.HTTP_404_NOT_FOUND)
+        # Validating and updating only the fields below
+        serializer = CarSaleSerializer(sale_apt, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            valid_fields = {'cancel_apt', 'viewing_date', 'viewing_time'}
+            payload_fields = set(request.data.keys())
+
+            # Remove 'sale_id' from payload fields as we've already used it
+            payload_fields.discard('sale_id')
+
+            if 'cancel_apt' in payload_fields and ('viewing_date' in payload_fields or 'viewing_time' in payload_fields):
+                return Response({"error":"You can either cancel the appointment or change the viewing date and time but not both."}, status=status.HTTP_400_BAD_REQUEST)
+
+            for field in payload_fields:
+                if field not in valid_fields:
+                    return Response({"error": f"Invalid field {field}. You can only update cancel_apt or viewing_date and viewing_time."}, status=status.HTTP_400_BAD_REQUEST)
+
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
+
+
+
 
 
 
