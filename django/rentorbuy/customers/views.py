@@ -168,10 +168,37 @@ class EditSaleAppointment(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CreateRental(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        data = request.data.copy()
+        data['customer_nric'] = request.user.nric  # Assuming that nric is a field in your JWT payload and mapped to request.user
+        serializer = RentalSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CreateCarSale(APIView):
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        nric = request.user.nric  # Assuming nric is present in JWT claims and mapped to request.user
 
+        # Create a copy of the POST data to include customer_nric
+        data = request.data.copy()
+        data['customer_nric'] = nric
 
+        # Use serializer to validate and save the object
+        serializer = CarSaleSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

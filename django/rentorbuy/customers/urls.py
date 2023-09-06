@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CreateCustomerAccount, DeleteCustomerAccount, GetCustomerAccount, CustomerRentalHistory, CustomerSaleHistory, EditSaleAppointment
+from .views import CreateCustomerAccount, DeleteCustomerAccount, GetCustomerAccount, CustomerRentalHistory, CustomerSaleHistory, EditSaleAppointment, CreateRental, CreateCarSale
 
 urlpatterns = [
     path('register/', CreateCustomerAccount.as_view(), name='create-customer-account'),
@@ -8,6 +8,8 @@ urlpatterns = [
     path('cars/rentals/', CustomerRentalHistory.as_view(), name='customer-rentals'),
     path('cars/sales/', CustomerSaleHistory.as_view(), name='customer-sales'),
     path('cars/sale/<str:sale_id>/', EditSaleAppointment.as_view(), name='edit-sale-apt'),
+    path('rental', CreateRental.as_view(), name='create-new-rental-transaction'),
+    path('carsale', CreateCarSale.as_view(), name='create-car-sale')
     # ... your other URL patterns ...
 ]
 
