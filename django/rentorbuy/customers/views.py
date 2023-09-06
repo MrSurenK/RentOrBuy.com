@@ -1,8 +1,28 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import CustomerAccount
-from .serializers import CustomerAccountSerializer
+from .models import CustomerAccount, Rental
+from .serializers import CustomerAccountSerializer, RentalSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+
+class JwtDetails(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        response = JWTAuthentication().authenticate(request)
+        if response is not None:
+            account, token = response
+
+            print(account)
+            print(account.id)
+            print(account.email)
+
+            return Response(token.payload)
+
+        else:
+            return Response('token error')
 
 class CreateCustomerAccount(APIView):
 
@@ -57,6 +77,7 @@ class DeleteCustomerAccount(APIView):
             return Response({'error': 'Only the is_active field can be updated.'}, status=status.HTTP_400_BAD_REQUEST)
 
 class GetCustomerAccount(APIView):
+    permission_classes = (IsAuthenticated,)
     def get(self, request):
         nric = request.data.get("nric", None)
         if nric is None:
@@ -69,4 +90,27 @@ class GetCustomerAccount(APIView):
 
         serializer = CustomerAccountSerializer(customer)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class CustomerRentalHistory(APIView):
+    def post(self, request):
+        nric = request.data.get("nric", None)
+        if nric is None:
+            return Response({"error": "NRIC is required"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            customer = CustomerAccount.objects.get(nric=nric)
+        except CustomerAccount.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        rentals = Rental.objects.filter(customer_nric=customer)
+        serializer = RentalSerializer(rentals, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
+
+
+
+
 

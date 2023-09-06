@@ -22,7 +22,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dealer/', include('dealer.urls')),
-    path('customer/',include('customers.urls'))
+    path('customer/',include('customers.urls')),
+    path('jwt_api/', include('restful_apis.urls')),
+
 ]
 
 if settings.DEBUG:

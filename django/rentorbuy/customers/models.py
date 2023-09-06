@@ -11,7 +11,7 @@ import uuid
 
 # Create Customer Account and Table
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, age, contact_no, address, nric, password=None):
+    def create_user(self, email, first_name, last_name, age, contact_no, address, nric, password):
         if not email:
             raise ValueError('The Email Field must be set')
         if age is None or not first_name or not last_name or not contact_no or not address or not nric:  # All these fields are mandatory and age should not be 0
@@ -28,6 +28,24 @@ class CustomUserManager(BaseUserManager):
             nric=nric,
         )
         user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, first_name, last_name, age, contact_no, address, nric, password):
+        user = self.create_user(
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            age=age,
+            contact_no=contact_no,
+            address=address,
+            nric=nric,
+            password=password,
+        )
+
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_admin = True
         user.save(using=self._db)
         return user
 
@@ -59,12 +77,23 @@ class CustomerAccount(AbstractBaseUser):
     valid_license = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     account_creation_date = models.DateTimeField(auto_now_add=True)
+    is_staff = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ["first_name", "last_name", "age", "contact_no", "address", "nric", "password"]
 
     def __str__(self):
         return f'{self.nric}, {self.email}, {self.first_name}'
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return True
 
 
 # Rental Transcations model
