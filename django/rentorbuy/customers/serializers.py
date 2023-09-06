@@ -18,7 +18,7 @@ class CarSaleSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ComplaintSerializer(serializers.ModelSerializer):
-    class Meta;:
+    class Meta:
         model = Complaint
         fields = '__all__'
 
