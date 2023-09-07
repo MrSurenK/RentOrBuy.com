@@ -36,7 +36,7 @@ const NavBar = () => {
   ];
 
   return (
-    <div>
+    <>
       <header className="w-full bg-white md:bg-transparent fixed top-0 left-0 right-0">
         <nav
           className={`py-4 lg:px-14 px-4 ${
@@ -99,9 +99,28 @@ const NavBar = () => {
               </button>
             </div>
           </div>
+          {/* nav items for mobile devices */}
+          <div
+            className={`space-y-4 px-4 mt-16 py-7 bg-primary ${
+              isMenuOpen ? "block fixed top-0 right-0 left-0" : "hidden"
+            }`}
+          >
+            {navItems.map(({ link, path }) => (
+              <Link
+                to={path}
+                spy={true}
+                smooth={true}
+                offset={-100}
+                key={path}
+                className="block text-base text-white hover:text-black first:font-medium"
+              >
+                {link}
+              </Link>
+            ))}
+          </div>
         </nav>
       </header>
-    </div>
+    </>
   );
 };
 
