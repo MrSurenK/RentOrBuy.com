@@ -10,6 +10,7 @@ module.exports = {
         buttonSecond: "#93e4c1",
         neutralSilver: "#F5F7FA",
         neutralGrey: "#4D4D4D",
+        gray900: "#18191F",
       },
     },
   },

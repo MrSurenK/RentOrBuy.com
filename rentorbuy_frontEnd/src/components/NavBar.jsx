@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "../assets/rentorbuyicon.jpeg";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,16 +42,41 @@ const NavBar = () => {
             href=""
             className="text-2xl font-semibold flex items-center space x-3"
           >
+            <img
+              src={logo}
+              alt="company logo"
+              className="w-10 inline-block items-center rounded-lg"
+            />
             <span className="text-[#263232]">RentOrBuy</span>
           </a>
           {/* nav items for large devices */}
           <ul className="md:flex space-x-12 hidden">
             {navItems.map(({ link, path }) => (
-              <Link to={path} spy={true} smooth={true} offset={-100} key={path}>
+              <Link
+                to={path}
+                spy={true}
+                smooth={true}
+                offset={-100}
+                key={path}
+                className="block text-base text-gray900 hover:text-primary first:font-medium"
+              >
                 {link}
               </Link>
             ))}
           </ul>
+
+          {/* btn for large devices */}
+          <div className="space-x-12 hidden lg:flex items-center">
+            <a
+              href="/"
+              className="hideen lg:flex items-center text-primary hover:text-gray900"
+            >
+              Login
+            </a>
+            <button className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey">
+              Sign Up
+            </button>
+          </div>
         </nav>
       </header>
     </div>
