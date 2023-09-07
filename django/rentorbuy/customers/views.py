@@ -85,6 +85,7 @@ class DeleteCustomerAccount(APIView):
         else:
             return Response({'error': 'Only the is_active field can be updated.'}, status=status.HTTP_400_BAD_REQUEST)
 
+
 class GetCustomerAccount(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request):
