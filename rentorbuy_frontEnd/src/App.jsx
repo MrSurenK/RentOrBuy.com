@@ -9,12 +9,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 function App() {
   return (
     <>
-      <BrowserRouter basename="/">
+      <BrowserRouter>
         <NavBar />
         <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/rentals" element={<Rentals />} />
-          <Route path="/forsale" element={<ForSale />} />
+          <Route path="home" element={<Home />} />
+          <Route path="rentals" element={<Rentals />} />
+          <Route path="forsale" element={<ForSale />} />
         </Routes>
       </BrowserRouter>
     </>

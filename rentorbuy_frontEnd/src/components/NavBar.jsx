@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
-
-  //to navigate to the different URLs from the header
-  const navigate = useNavigate();
 
   //  set toggle Menu
   const toggleMenu = () => {
@@ -46,6 +43,14 @@ const NavBar = () => {
           >
             <span className="text-[#263232]">RentOrBuy</span>
           </a>
+          {/* nav items for large devices */}
+          <ul className="md:flex space-x-12 hidden">
+            {navItems.map(({ link, path }) => (
+              <Link to={path} spy={true} smooth={true} offset={-100} key={path}>
+                {link}
+              </Link>
+            ))}
+          </ul>
         </nav>
       </header>
     </div>
