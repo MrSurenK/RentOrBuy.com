@@ -118,6 +118,8 @@ class Rental(models.Model):
     rental_start_date = models.DateTimeField()
     rental_end_date = models.DateTimeField()
     rental_status = models.CharField(max_length=2, choices=Status.choices)
+    car_id = models.ForeignKey(Car, on_delete=models.DO_NOTHING, null=True)
+
 
     # When you create a new Rentals object and call its save method, this custom implementation will execute.
     # If transaction_id has not been set, it will generate a new, unique ID, prefix it with "TRA-", and assign it to self.transaction_id.

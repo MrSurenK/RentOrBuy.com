@@ -9,7 +9,7 @@ urlpatterns = [
     path('cars/sales/', CustomerSaleHistory.as_view(), name='customer-sales'),
     path('cars/sale/<str:sale_id>/', EditSaleAppointment.as_view(), name='edit-sale-apt'),
     path('rental', CreateRental.as_view(), name='create-new-rental-transaction'),
-    path('carsale', CreateCarSale.as_view(), name='create-car-sale')
+    path('carSale', CreateCarSale.as_view(), name='create-car-sale')
     # ... your other URL patterns ...
 ]
 

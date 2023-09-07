@@ -175,6 +175,12 @@ class CreateRental(APIView):
         data['customer_nric'] = request.user.nric  # Assuming that nric is a field in your JWT payload and mapped to request.user
         serializer = RentalSerializer(data=data)
 
+        # Assuming car_id is in the request payload
+        if 'car_id' not in data:
+            return Response({"error": "car_id must be provided in payload."}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = RentalSerializer(data=data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
