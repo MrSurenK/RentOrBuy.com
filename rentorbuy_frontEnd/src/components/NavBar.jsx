@@ -37,7 +37,7 @@ const NavBar = () => {
 
   return (
     <>
-      <header className="w-full bg-white md:bg-transparent fixed top-0 left-0 right-0">
+      <header className="w-full bg-slate-100 shadow-lg fixed top-0 left-0 right-0">
         <nav
           className={`py-4 lg:px-14 px-4 ${
             isSticky
@@ -55,7 +55,7 @@ const NavBar = () => {
                 alt="company logo"
                 className="w-10 inline-block items-center rounded-lg"
               />
-              <span className="text-[#263232]">RentOrBuy</span>
+              <span className="text-[#263232] px-1.5">RentOrBuy</span>
             </a>
             {/* nav items for large devices */}
             <ul className="md:flex space-x-12 hidden">
