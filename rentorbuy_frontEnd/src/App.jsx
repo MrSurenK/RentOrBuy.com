@@ -12,9 +12,12 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <Routes>
-          <Route path="home" element={<Home />} />
-          <Route path="rentals" element={<Rentals />} />
-          <Route path="forsale" element={<ForSale />} />
+          <Route path="/">
+            <Route index element={<Home />} />
+            <Route path="home" element={<Home />} />
+            <Route path="rentals" element={<Rentals />} />
+            <Route path="forsale" element={<ForSale />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
