@@ -12,6 +12,9 @@ module.exports = {
         neutralGrey: "#4D4D4D",
         gray900: "#18191F",
       },
+      spacing: {
+        clearNav: "72px",
+      },
     },
   },
   plugins: [],
