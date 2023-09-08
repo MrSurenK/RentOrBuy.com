@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 const SignUp = () => {
   return (
     <>
-      <div className="mt-clearNav bg-neutralSilver ">
+      <div className="mt-clearNav bg-neutralSilver">
         <div className="mt-30 px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen  ">
           <section className="p-6 dark:bg-gray-800 dark:text-gray-50">
             <form
@@ -55,6 +55,38 @@ const SignUp = () => {
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                     />
                   </div>
+                  <div className="row-start-3 col-span-3 sm:col-span-2 md:col-span-2 ">
+                    <label for="nric" className="text-sm">
+                      NRIC
+                    </label>
+                    <input
+                      id="nric"
+                      type="text"
+                      placeholder="S1234567A"
+                      className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                    />
+                  </div>
+                  <div className="row-start-3 col-span-2 sm:col-span-1 pr-20">
+                    <label for="age" className="text-sm">
+                      Age
+                    </label>
+                    <input
+                      id="age"
+                      type="number"
+                      className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                    />
+                  </div>
+                  <div className="row-start-4 col-span-3 sm:col-span-2 md:col-span-2 ">
+                    <label for="contact" className="text-sm">
+                      Contact
+                    </label>
+                    <input
+                      id="contact"
+                      type="tel"
+                      placeholder="+65 12345678"
+                      className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                    />
+                  </div>
                   <div className="col-span-full">
                     <label for="address" className="text-sm">
                       Address
@@ -99,6 +131,29 @@ const SignUp = () => {
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                     />
                   </div>
+                </div>
+              </fieldset>
+              <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-900">
+                <div className="space-y-2 col-span-full lg:col-span-1">
+                  <p className="font-medium">Set your password</p>
+                  <p className="text-xs">Please set a strong password.</p>
+                </div>
+                <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
+                  <div className="col-span-full sm:col-span-3">
+                    <label for="firstname" className="text-sm">
+                      Password
+                    </label>
+                    <input
+                      id="password"
+                      type="password"
+                      className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <button className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey">
+                    Submit
+                  </button>
                 </div>
               </fieldset>
             </form>
