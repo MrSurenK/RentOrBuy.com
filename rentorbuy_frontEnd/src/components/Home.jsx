@@ -1,6 +1,5 @@
 import React from "react";
 import BannerCar from "../assets/car_no_background.png";
-import { Button } from "flowbite-react";
 
 const Home = () => {
   return (
@@ -10,8 +9,6 @@ const Home = () => {
           <div className="w-full mx-auto">
             <img src={BannerCar} alt="Banner Car" />
           </div>
-          <Button>Default</Button>
-          <Button color="gray"></Button>
         </div>
       </div>
     </>

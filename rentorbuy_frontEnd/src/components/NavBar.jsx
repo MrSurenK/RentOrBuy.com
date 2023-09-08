@@ -79,10 +79,10 @@ const NavBar = () => {
                 href="/"
                 className="hideen lg:flex items-center text-primary hover:text-gray900"
               >
-                Login
+                Sign Up
               </a>
               <button className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey">
-                Sign Up
+                Login
               </button>
             </div>
             {/* menu button for only mobile devices */}
