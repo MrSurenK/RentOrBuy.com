@@ -77,12 +77,12 @@ const NavBar = () => {
 
             {/* btn for large devices */}
             <div className="space-x-12 hidden lg:flex items-center">
-              <a
-                href="/"
+              <Link
+                to="signup"
                 className="hideen lg:flex items-center text-primary hover:text-gray900"
               >
                 Sign Up
-              </a>
+              </Link>
               <button
                 className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey"
                 onClick={() => setShowModal(true)}
