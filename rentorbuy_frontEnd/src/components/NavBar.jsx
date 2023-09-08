@@ -163,7 +163,7 @@ const NavBar = () => {
             </div>
             <button
               type="submit"
-              className="w-20 h-10 text-white bg-blue-700 hover:bg-blue focus:ring-4 focus:outline-none focus:ring-blue-300
+              className="w-20 h-10 bg-primary text-white py-2 px-4 transition-all duration-200 rounded hover:bg-neutralGrey
             rounded-lg"
             >
               Login
