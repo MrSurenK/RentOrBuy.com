@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/rentorbuyicon.jpeg";
 import { FaXmark, FaBars } from "react-icons/fa6";
+import LoginModal from "./LoginModal";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   //  set toggle Menu
   const toggleMenu = () => {
@@ -81,7 +83,10 @@ const NavBar = () => {
               >
                 Sign Up
               </a>
-              <button className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey">
+              <button
+                className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey"
+                onClick={() => setShowModal(true)}
+              >
                 Login
               </button>
             </div>
@@ -120,6 +125,52 @@ const NavBar = () => {
           </div>
         </nav>
       </header>
+      <LoginModal isVisible={showModal} onClose={() => setShowModal(false)}>
+        <div class="py-6 px-6 lg:px-8 text-left">
+          <h3 class="mb-4 text-xl font-medium text-gray-900">Sign in</h3>
+          <form class="space-y-6" action="#">
+            <div>
+              <label
+                for="email"
+                class="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                placeholder="youremail@gmail.com"
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="password"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="*******"
+                className="bg-gray-50 border boder-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                required
+              ></input>
+            </div>
+            <button
+              type="submit"
+              className="w-20 h-10 text-white bg-blue-700 hover:bg-blue focus:ring-4 focus:outline-none focus:ring-blue-300
+            rounded-lg"
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      </LoginModal>
     </>
   );
 };
