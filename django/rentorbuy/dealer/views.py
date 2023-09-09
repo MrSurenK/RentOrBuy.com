@@ -42,6 +42,8 @@ class CarRentalListView(views.APIView):
 
 # @GET(/cars/forsale)
 class CarSaleListView(views.APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
     def get(self, request):
         sales = SaleListing.objects.all()
         serialized_data = []
