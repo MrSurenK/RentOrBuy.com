@@ -8,9 +8,10 @@ const Home = () => {
   const [rentals, setRentals] = useState([]);
 
   const getRentals = async () => {
-    const res = await fetchData("/dealer/cars/rentals", "GET", undefined);
+    const res = await fetchData("/dealer/cars/hi", "GET", undefined);
     if (res.ok) {
       setRentals(res.data);
+      console.log(res.data);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
@@ -19,6 +20,7 @@ const Home = () => {
 
   useEffect(() => {
     getRentals();
+    console.log(import.meta.env.VITE_SERVER);
   }, []);
 
   return (

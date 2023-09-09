@@ -3,6 +3,7 @@ import React from "react";
 const useFetch = () => {
   const fetchData = async (endpoint, method, body, token) => {
     const res = await fetch(import.meta.env.VITE_SERVER + endpoint, {
+      //   mode: "no-cors",
       method,
       headers: {
         "Content-Type": "application/json",

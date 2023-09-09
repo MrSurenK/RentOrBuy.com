@@ -78,3 +78,11 @@ class CarSaleListView(views.APIView):
 
         return Response(serialized_data, status=status.HTTP_200_OK)
 
+class TestRoute(views.APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        return Response("Hi")
+
+
