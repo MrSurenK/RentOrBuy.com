@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import useFetch from "../hooks/useFetch";
 import BannerCar from "../assets/car_no_background.png";
 import { Card } from "flowbite-react";
 
 const Home = () => {
+  const fetchData = useFetch();
+  const [rentals, setRentals] = useState([]);
+
   const getRentals = async () => {
-    const res = await fetchData("");
+    const res = await fetchData("/dealer/cars/rentals", "GET", undefined);
+    if (res.ok) {
+      setRentals(res.data);
+    } else {
+      alert(JSON.stringify(res.data));
+      console.log(res.data);
+    }
   };
+
+  useEffect(() => {
+    getRentals();
+  }, []);
 
   return (
     <>
