@@ -1,16 +1,18 @@
 
 from .models import Car, RentalListing, SaleListing
 # Create your views here.
-
 from rest_framework import views, status
 from rest_framework.response import Response
 from .models import RentalListing
 from .serializers import CarSerializer, RentalListingSerializer, SaleListingSerializer
+from rest_framework.permissions import AllowAny
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 
 # @GET(/cars/rentals)
 class CarRentalListView(views.APIView):
-
+    authentication_classes = []
+    permission_classes = [AllowAny]
     def get(self, request):
         rentals = RentalListing.objects.all()
         serialized_data = []
