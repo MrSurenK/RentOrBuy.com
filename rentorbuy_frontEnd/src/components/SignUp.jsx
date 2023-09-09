@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
 const SignUp = () => {
   return (
     <>
-      <div className="mt-clearNav bg-neutralSilver">
+      <div className="mt-clearNav bg-neutralSilver ">
         <div className="mt-30 px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen  ">
           <section className="p-6 dark:bg-gray-800 dark:text-gray-50">
             <form
