@@ -37,7 +37,7 @@ class CarRentalListView(views.APIView):
 
             serialized_data.append(combined_data)
 
-        return (Response(serialized_data, status=status.HTTP_200_OK))
+        return Response(serialized_data, status=status.HTTP_200_OK)
 
 
 # @GET(/cars/forsale)

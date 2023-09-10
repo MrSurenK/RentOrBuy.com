@@ -31,8 +31,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+]
+CORS_ORIGIN_ALLOW_ALL = True
 
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/"]
+
 
 
 AUTH_USER_MODEL = 'customers.CustomerAccount'
@@ -73,15 +79,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = [
-    'content-type',
-    'authorization',
-]
-CORS_ALLOWED_ALL_ORIGINS = True
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-]
+
 
 
 ROOT_URLCONF = 'rentorbuy.urls'
