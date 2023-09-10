@@ -1,7 +1,7 @@
 import React from "react";
 
 const EditCmInfo = () => {
-  return <div></div>;
+  return <div>Customer Info</div>;
 };
 
 export default EditCmInfo;
