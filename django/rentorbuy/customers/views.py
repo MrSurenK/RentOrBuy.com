@@ -5,6 +5,7 @@ from .models import CustomerAccount, Rental, CarSale
 from .serializers import CustomerAccountSerializer, RentalSerializer, CarSaleSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class JwtDetails(APIView):
@@ -25,6 +26,8 @@ class JwtDetails(APIView):
             return Response('token error')
 
 class CreateCustomerAccount(APIView):
+
+    parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request):
         nric = request.data.get('nric', None)

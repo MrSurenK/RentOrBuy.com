@@ -10,6 +10,11 @@ license_plate_validator = RegexValidator(
     code='invalid_license_plate'
 )
 
+# Function for upload_to to save image in the car_pics folder and utilise the filename
+# Function is being formed before the image is actually being saved.
+def upload_to(instance, filename):
+    return 'car_pics/{filename}'.format(filename=filename)
+
 # Create your models here.
 class Car(models.Model):
     class CarType(models.TextChoices):

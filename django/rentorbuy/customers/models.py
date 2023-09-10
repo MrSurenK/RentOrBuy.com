@@ -63,6 +63,9 @@ sg_num_validator = RegexValidator(
     code='invalid_contact_number'
 )
 
+# Function for profile picture upload
+def upload_to(instance, filename):
+    return 'profile_pics/{filename}'.format(filename=filename)
 
 class CustomerAccount(AbstractBaseUser):
     nric = models.CharField(max_length=9, unique=True, primary_key=True, validators=[nric_validator])
@@ -144,7 +147,7 @@ class CarSale(models.Model):
     viewing_date = models.DateField()
     viewing_time = models.TimeField()
     is_sold = models.BooleanField(default=False)
-    transaction_amount = models.DecimalField(max_digits=6, decimal_places=2)
+    transaction_amount = models.DecimalField(max_digits=10, decimal_places=2)
     transaction_date = models.DateTimeField(auto_now_add=True)
     cancel_apt = models.BooleanField(default=False)
 
