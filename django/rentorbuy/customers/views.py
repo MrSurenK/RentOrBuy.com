@@ -65,13 +65,31 @@ class CreateCustomerAccount(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class EditCustomerAccount(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    # def patch(self,request):
+    #     nric = request.user.nric
+    #     try:
+    #         customer = CustomerAccount.objects.get(nric=nric)
+    #     except CustomerAccount.DoesNotExist:
+    #         return Response(status=status.HTTP_404_NOT_FOUND)
+    #
+    #     serializer = CustomerAccountSerializer(customer, data=request.data, partial=True)
+    #
+    #     if serializer.is_valid():
+
+
+
+
+
 
 class DeleteCustomerAccount(APIView):
     permission_classes = (IsAuthenticated,)
     def delete(self, request):
         nric = request.user.nric
         try:
-            customer = CustomerAccount.objects.get(nric=nric) #nric is the param
+            customer = CustomerAccount.objects.get(nric=nric)
         except CustomerAccount.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 

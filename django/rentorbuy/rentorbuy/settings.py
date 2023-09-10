@@ -31,15 +31,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ['*']
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:8000",
-]
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-]
+
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:8000/"]
 
 
 AUTH_USER_MODEL = 'customers.CustomerAccount'
@@ -70,15 +63,26 @@ REST_FRAMEWORK = {
 
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+]
+CORS_ALLOWED_ALL_ORIGINS = True
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+]
+
 
 ROOT_URLCONF = 'rentorbuy.urls'
 

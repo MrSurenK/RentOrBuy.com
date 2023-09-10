@@ -8,7 +8,7 @@ const Home = () => {
   const [rentals, setRentals] = useState([]);
 
   const getRentals = async () => {
-    const res = await fetchData("/dealer/cars/hi", "GET", undefined);
+    const res = await fetchData("/dealer/cars/rentals", "GET", undefined);
     if (res.ok) {
       setRentals(res.data);
       console.log(res.data);
