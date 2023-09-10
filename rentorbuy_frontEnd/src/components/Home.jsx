@@ -40,19 +40,25 @@ const Home = () => {
               <hr className="w-full h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 bg-primary"></hr>
             </div>
           </div>
-          <div className="rentals-container">
+          <div className="flex flex-column justify-between">
             {rentals.map((rental, index) => (
               <Card
                 key={index}
                 imgAlt="Rental Car"
                 imgSrc={import.meta.env.VITE_SERVER + rental.vehicle_image}
+                className="w-full ml-8"
               >
-                <div>Colour: {rental.colour}</div>
+                <div>
+                  {rental.brand} {rental.model}
+                </div>
+                <div>{rental.colour}</div>
                 <div>Seat Capacity: {rental.seat_capacity}</div>
                 <div>Rental Rate: ${rental.rental_rate}</div>
                 <div>Vehicle Type: {rental.vehicle_type}</div>
                 <div>Listing Date: {rental.listing_date}</div>
-                <button className="btn btn-primary">Rent Now</button>
+                <button className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey">
+                  Rent Now
+                </button>
               </Card>
             ))}
           </div>
