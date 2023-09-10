@@ -20,7 +20,6 @@ const Home = () => {
 
   useEffect(() => {
     getRentals();
-    console.log(import.meta.env.VITE_SERVER);
   }, []);
 
   return (
@@ -41,21 +40,21 @@ const Home = () => {
               <hr className="w-full h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 bg-primary"></hr>
             </div>
           </div>
-          <div>
-            <Card
-            // imgAlt="Meaningful alt text for an image that is not purely decorative"
-            // imgSrc="/images/blog/image-1.jpg"
-            >
-              <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                <p>Noteworthy technology acquisitions 2021</p>
-              </h5>
-              <div className="font-normal text-gray-700 dark:text-gray-400">
-                <p>
-                  Here are the biggest enterprise technology acquisitions of
-                  2021 so far, in reverse chronological order.
-                </p>
-              </div>
-            </Card>
+          <div className="rentals-container">
+            {rentals.map((rental, index) => (
+              <Card
+                key={index}
+                imgAlt="Rental Car"
+                imgSrc={import.meta.env.VITE_SERVER + rental.vehicle_image}
+              >
+                <div>Colour: {rental.colour}</div>
+                <div>Seat Capacity: {rental.seat_capacity}</div>
+                <div>Rental Rate: ${rental.rental_rate}</div>
+                <div>Vehicle Type: {rental.vehicle_type}</div>
+                <div>Listing Date: {rental.listing_date}</div>
+                <button className="btn btn-primary">Rent Now</button>
+              </Card>
+            ))}
           </div>
         </div>
       </div>
