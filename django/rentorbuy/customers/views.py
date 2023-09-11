@@ -132,7 +132,7 @@ class GetCustomerAccount(APIView):
         except CustomerAccount.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        serializer = CustomerAccountSerializer(customer)
+        serializer = CustomerAccountSerializer(customer, context={'request':request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class CustomerRentalHistory(APIView):

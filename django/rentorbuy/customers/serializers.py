@@ -3,9 +3,11 @@ from .models import CustomerAccount, Rental, CarSale, Complaint, Fine, Insurance
 
 
 class CustomerAccountSerializer(serializers.ModelSerializer):
+    profile_pic = serializers.ImageField(use_url=True)
     class Meta:
         model = CustomerAccount
         fields = '__all__'
+
 
 class RentalSerializer(serializers.ModelSerializer):
     class Meta:

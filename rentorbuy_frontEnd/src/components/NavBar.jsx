@@ -30,6 +30,9 @@ const NavBar = () => {
       userCtx.setIsActive(decoded.is_active);
       userCtx.setIsLoggedIn(true);
       userCtx.setMemberSince(decoded.account_creation_date);
+      userCtx.setNric(decoded.nric);
+      userCtx.setIsActive(decoded.is_active);
+
       // userCtx.setProfilePic(decoded.profile_pic);
       alert("Succesfully Logged In!"); //Comment out before presentation
       setShowModal(false);

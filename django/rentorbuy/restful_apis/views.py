@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
+from django.utils.timezone import now
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -17,7 +18,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['is_Active'] = user.is_active
         # To convert datetime to the right format. This method works granted that it is a field that is no nullable
         token['account_creation_date'] = user.account_creation_date.strftime('%d/%m/%Y')
-    
+
+        user.last_login=now()
+        user.save(update_fields=['last_login'])
+
 
         return token
 
