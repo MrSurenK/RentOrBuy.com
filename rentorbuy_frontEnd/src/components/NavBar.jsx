@@ -28,7 +28,9 @@ const NavBar = () => {
       userCtx.setFirstName(decoded.first_name);
       userCtx.setLastName(decoded.last_name);
       userCtx.setIsActive(decoded.is_active);
-      alert("Succesfully Logged In!");
+      userCtx.setIsLoggedIn(true);
+      userCtx.setMemberSince(decoded.account_creation_date);
+      alert("Succesfully Logged In!"); //Comment out before presentation
       setShowModal(false);
     } else {
       alert(JSON.stringify(res.data));
@@ -101,20 +103,40 @@ const NavBar = () => {
             </ul>
 
             {/* btn for large devices */}
-            <div className="space-x-12 hidden lg:flex items-center">
-              <Link
-                to="signup"
-                className="hideen lg:flex items-center text-primary hover:text-gray900"
-              >
-                Sign Up
-              </Link>
-              <button
-                className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey"
-                onClick={() => setShowModal(true)}
-              >
-                Login
-              </button>
-            </div>
+            {!userCtx.isLoggedIn && (
+              <div className="space-x-12 hidden lg:flex items-center">
+                <Link
+                  to="signup"
+                  className="hideen lg:flex items-center text-primary hover:text-gray900"
+                >
+                  Sign Up
+                </Link>
+                <button
+                  className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey"
+                  onClick={() => setShowModal(true)}
+                >
+                  Login
+                </button>
+              </div>
+            )}
+
+            {userCtx.isLoggedIn && (
+              <div class="flex items-center space-x-4">
+                <img
+                  class="w-10 h-10 rounded-full"
+                  src="/docs/images/people/profile-picture-5.jpg"
+                  alt=""
+                />
+                <div class="font-medium dark:text-white">
+                  <div>
+                    {userCtx.first_name} {userCtx.last_name}
+                  </div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400">
+                    Joined in {userCtx.memberSince}
+                  </div>
+                </div>
+              </div>
+            )}
             {/* menu button for only mobile devices */}
             <div className="md:hidden">
               <button

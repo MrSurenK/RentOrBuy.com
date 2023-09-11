@@ -16,6 +16,9 @@ function App() {
   const [last_name, setLastName] = useState("");
   const [is_active, setIsActive] = useState(false);
   const [nric, setNric] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [memberSince, setMemberSince] = useState("");
+
   return (
     <>
       <UserContext.Provider
@@ -30,6 +33,10 @@ function App() {
           is_active,
           setNric,
           nric,
+          setIsLoggedIn,
+          isLoggedIn,
+          memberSince,
+          setMemberSince,
         }}
       >
         <BrowserRouter>

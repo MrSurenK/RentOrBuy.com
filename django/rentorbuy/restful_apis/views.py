@@ -15,7 +15,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['first_name'] = user.first_name
         token['last_name'] = user.last_name
         token['is_Active'] = user.is_active
-        token['password'] = user.password
+        # To convert datetime to the right format. This method works granted that it is a field that is no nullable
+        token['account_creation_date'] = user.account_creation_date.strftime('%d/%m/%Y')
 
         return token
 
