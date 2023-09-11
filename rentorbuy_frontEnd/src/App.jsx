@@ -8,11 +8,30 @@ import EditCmInfo from "./components/EditCmInfo";
 import * as React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import UserContext from "./context/user";
+import { useState } from "react";
 
 function App() {
+  const [accessToken, setAccessToken] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [is_active, setIsActive] = useState(false);
+  const [nric, setNric] = useState("");
   return (
     <>
-      <UserContext.Provider>
+      <UserContext.Provider
+        value={{
+          accessToken,
+          setAccessToken,
+          setFirstName,
+          first_name,
+          setLastName,
+          last_name,
+          setIsActive,
+          is_active,
+          setNric,
+          nric,
+        }}
+      >
         <BrowserRouter>
           <NavBar />
           <Routes>

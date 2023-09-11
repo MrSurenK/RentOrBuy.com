@@ -3,12 +3,36 @@ import { Link } from "react-router-dom";
 import logo from "../assets/rentorbuyicon.jpeg";
 import { FaXmark, FaBars } from "react-icons/fa6";
 import LoginModal from "./LoginModal";
+import UserContext from "../context/user";
+import jwtDecode from "jwt-decode";
+import useFetch from "../hooks/useFetch";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  const userCtx = useContext(UserContext);
+  const [email, setEmail] = useState("");
+
+  const [password, setPassword] = useState("");
+  const fetchData = useFetch();
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const res = await fetchData("/login/token/", "POST", { email, password });
+
+    if (res.ok) {
+      userCtx.setAccessToken(res.data.access);
+      const decoded = jwtDecode(res.data.access);
+      userCtx.setFirstName(decoded.first_name);
+      userCtx.setLastName(decoded.last_name);
+      userCtx.setIsActive(decoded.is_active);
+      alert("Succesfully Logged In!");
+    } else {
+      alert(JSON.stringify(res.data));
+    }
+  };
   //  set toggle Menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -140,6 +164,7 @@ const NavBar = () => {
                 type="email"
                 name="email"
                 id="email"
+                onChange={(e) => setEmail(e.target.value)}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="youremail@gmail.com"
                 required
@@ -159,12 +184,14 @@ const NavBar = () => {
                 placeholder="*******"
                 className="bg-gray-50 border boder-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 required
+                onChange={(e) => setPassword(e.target.value)}
               ></input>
             </div>
             <button
               type="submit"
               className="w-20 h-10 bg-primary text-white py-2 px-4 transition-all duration-200 rounded hover:bg-neutralGrey
             rounded-lg"
+              onClick={handleLogin}
             >
               Login
             </button>

@@ -12,6 +12,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         token['nric'] = user.nric
         token['email'] = user.email
+        token['first_name'] = user.first_name
+        token['last_name'] = user.last_name
+        token['is_Active'] = user.is_active
+        token['password'] = user.password
 
         return token
 
