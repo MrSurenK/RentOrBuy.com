@@ -11,7 +11,7 @@ import uuid
 
 # Create Customer Account and Table
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, age, contact_no, address, nric, password):
+    def create_user(self, email, first_name, last_name, age, contact_no, address, nric, password, profile_pic=None, valid_license=True,is_active=True, is_staff=False, is_admin=False, is_superuser=False):
         if not email:
             raise ValueError('The Email Field must be set')
         if age is None or not first_name or not last_name or not contact_no or not address or not nric:  # All these fields are mandatory and age should not be 0
@@ -26,12 +26,18 @@ class CustomUserManager(BaseUserManager):
             contact_no=contact_no,
             address=address,
             nric=nric,
+            profile_pic=profile_pic,
+            valid_license=valid_license,
+            is_active=is_active,
+            is_staff=is_staff,
+            is_admin=is_admin,
+            is_superuser=is_superuser,
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, first_name, last_name, age, contact_no, address, nric, password):
+    def create_superuser(self, email, first_name, last_name, age, contact_no, address, nric, password,profile_pic, valid_license, is_active, is_staff,is_admin, is_superuser):
         user = self.create_user(
             email=email,
             first_name=first_name,
@@ -41,6 +47,12 @@ class CustomUserManager(BaseUserManager):
             address=address,
             nric=nric,
             password=password,
+            profile_pic=profile_pic,
+            valid_license=valid_license,
+            is_active=is_active,
+            is_staff=is_staff,
+            is_admin=is_admin,
+            is_superuser=is_superuser,
         )
 
         user.is_staff = True

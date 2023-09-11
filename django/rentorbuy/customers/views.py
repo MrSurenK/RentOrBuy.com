@@ -29,7 +29,7 @@ class CreateCustomerAccount(APIView):
 
     parser_classes = [MultiPartParser, FormParser]
 
-    def post(self, request):
+    def post(self, request,):
         nric = request.data.get('nric', None)
         email = request.data.get('email', None)
 
@@ -63,6 +63,12 @@ class CreateCustomerAccount(APIView):
         serializer = CustomerAccountSerializer(data=request.data)
 
         if serializer.is_valid():
+            validated_data = serializer.validated_data
+            validated_data['profile_pic'] = request.FILES.get('profile_pic', None)
+            # If is_active is not in the request data, remove it from validated_data to use the default value from the model
+            if 'is_active' and 'valid_license' not in request.data:
+                validated_data.pop('is_active', None)
+                validated_data.pop('valid_license', None)
             user = CustomerAccount.objects.create_user(**serializer.validated_data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
