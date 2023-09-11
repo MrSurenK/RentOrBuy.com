@@ -29,6 +29,7 @@ const NavBar = () => {
       userCtx.setLastName(decoded.last_name);
       userCtx.setIsActive(decoded.is_active);
       alert("Succesfully Logged In!");
+      setShowModal(false);
     } else {
       alert(JSON.stringify(res.data));
     }
