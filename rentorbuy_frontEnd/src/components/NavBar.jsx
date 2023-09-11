@@ -30,6 +30,7 @@ const NavBar = () => {
       userCtx.setIsActive(decoded.is_active);
       userCtx.setIsLoggedIn(true);
       userCtx.setMemberSince(decoded.account_creation_date);
+      // userCtx.setProfilePic(decoded.profile_pic);
       alert("Succesfully Logged In!"); //Comment out before presentation
       setShowModal(false);
     } else {
@@ -124,7 +125,7 @@ const NavBar = () => {
               <div class="flex items-center space-x-4">
                 <img
                   class="w-10 h-10 rounded-full"
-                  src="/docs/images/people/profile-picture-5.jpg"
+                  src="./django/rentorbuy/media/profile_pics/default.jpg"
                   alt=""
                 />
                 <div class="font-medium dark:text-white">

@@ -17,6 +17,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['is_Active'] = user.is_active
         # To convert datetime to the right format. This method works granted that it is a field that is no nullable
         token['account_creation_date'] = user.account_creation_date.strftime('%d/%m/%Y')
+    
 
         return token
 
