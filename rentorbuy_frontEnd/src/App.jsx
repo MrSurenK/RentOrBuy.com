@@ -20,7 +20,7 @@ function App() {
             <Route path="rentals" element={<Rentals />} />
             <Route path="forsale" element={<ForSale />} />
             <Route path="signup" element={<SignUp />} />
-            <Route path="updateCm" element={<EditCmInfo />} />
+            <Route path="profileInfo" element={<EditCmInfo />} />
           </Route>
         </Routes>
       </BrowserRouter>

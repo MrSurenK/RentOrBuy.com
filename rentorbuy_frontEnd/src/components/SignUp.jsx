@@ -63,7 +63,7 @@ const SignUp = () => {
       const response = await fetch(
         import.meta.env.VITE_SERVER + "/customer/register/",
         {
-          method: "POST",
+          method: "PUT",
           body: formData,
         }
       );

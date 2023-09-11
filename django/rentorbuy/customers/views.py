@@ -29,7 +29,7 @@ class CreateCustomerAccount(APIView):
 
     parser_classes = [MultiPartParser, FormParser]
 
-    def post(self, request,):
+    def put(self, request,):
         nric = request.data.get('nric', None)
         email = request.data.get('email', None)
 
@@ -115,11 +115,13 @@ class DeleteCustomerAccount(APIView):
 
 class GetCustomerAccount(APIView):
     permission_classes = (IsAuthenticated,)
-    def get(self, request):
+    # authentication_classes = []  # disables authentication
+    # permission_classes = []  # disables permission
+
+    def post(self, request):
         nric = request.user.nric
         if nric is None:
             return Response({"error": "NRIC is required"}, status=status.HTTP_400_BAD_REQUEST)
-
         try:
             customer = CustomerAccount.objects.get(nric=nric)
         except CustomerAccount.DoesNotExist:
