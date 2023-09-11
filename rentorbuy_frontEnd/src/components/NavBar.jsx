@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/rentorbuyicon.jpeg";
 import { FaXmark, FaBars } from "react-icons/fa6";
