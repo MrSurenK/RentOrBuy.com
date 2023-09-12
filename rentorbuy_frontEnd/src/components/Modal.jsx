@@ -1,6 +1,6 @@
 import React from "react";
 
-const LoginModal = ({ isVisible, onClose, children }) => {
+const Modal = ({ isVisible, onClose, children }) => {
   if (!isVisible) return null;
 
   const handleClose = (e) => {
@@ -26,4 +26,4 @@ const LoginModal = ({ isVisible, onClose, children }) => {
   );
 };
 
-export default LoginModal;
+export default Modal;

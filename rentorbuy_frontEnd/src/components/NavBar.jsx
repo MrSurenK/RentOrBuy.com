@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/rentorbuyicon.jpeg";
 import { FaXmark, FaBars } from "react-icons/fa6";
-import LoginModal from "./LoginModal";
+import Modal from "./Modal";
 import UserContext from "../context/user";
 import jwtDecode from "jwt-decode";
 import useFetch from "../hooks/useFetch";
@@ -176,7 +176,7 @@ const NavBar = () => {
           </div>
         </nav>
       </header>
-      <LoginModal isVisible={showModal} onClose={() => setShowModal(false)}>
+      <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
         <div class="py-6 px-6 lg:px-8 text-left">
           <h3 class="mb-4 text-xl font-medium text-gray-900">Sign in</h3>
           <form class="space-y-6" action="#">
@@ -224,7 +224,7 @@ const NavBar = () => {
             </button>
           </form>
         </div>
-      </LoginModal>
+      </Modal>
     </>
   );
 };
