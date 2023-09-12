@@ -9,6 +9,7 @@ import * as React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import UserContext from "./context/user";
 import { useState } from "react";
+import CmHistory from "./components/CmHistory";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
@@ -55,6 +56,7 @@ function App() {
               <Route path="forsale" element={<ForSale />} />
               <Route path="signup" element={<SignUp />} />
               <Route path="account" element={<CmAccount />} />
+              <Route path="transactions" element={<CmHistory />} />
             </Route>
           </Routes>
         </BrowserRouter>

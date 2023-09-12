@@ -5,6 +5,7 @@ import { Card } from "flowbite-react";
 import Modal from "./Modal";
 import UserContext from "../context/user";
 import Datepicker from "react-tailwindcss-datepicker";
+import { get } from "react-scroll/modules/mixins/scroller";
 
 const Home = () => {
   const fetchData = useFetch();
@@ -45,6 +46,7 @@ const Home = () => {
 
   // POST CUSTOMER RENTALS API
   const handleRentalBooking = async (e) => {
+    e.preventDefault();
     const bookingData = {
       car_id: selectedRental.vehicle_id,
       rental_price: selectedRental.rental_rate,
@@ -62,6 +64,7 @@ const Home = () => {
     if (res.ok) {
       alert("Booking successful");
       setShowModal(false); //Close the modal
+      getRentals(); //Refresh listing page
     } else {
       alert("Booking failed: " + res.data);
     }
