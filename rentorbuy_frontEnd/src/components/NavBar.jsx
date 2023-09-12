@@ -33,8 +33,7 @@ const NavBar = () => {
       userCtx.setNric(decoded.nric);
       userCtx.setIsActive(decoded.is_active);
       userCtx.setLastLogin(decoded.last_login);
-
-      // userCtx.setProfilePic(decoded.profile_pic);
+      userCtx.setProfilePic(decoded.profile_pic);
       alert("Succesfully Logged In!"); //Comment out before presentation
       setShowModal(false);
     } else {
@@ -129,8 +128,8 @@ const NavBar = () => {
               <div class="flex items-center space-x-4">
                 <img
                   class="w-10 h-10 rounded-full"
-                  src="./django/rentorbuy/media/profile_pics/default.jpg"
-                  alt=""
+                  src={`${import.meta.env.VITE_SERVER}/${userCtx.profilePic}`}
+                  alt="profile_pic"
                 />
                 <div class="font-medium dark:text-white">
                   <div>

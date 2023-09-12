@@ -3,7 +3,7 @@ import useFetch from "../hooks/useFetch";
 import UserContext from "../context/user";
 import jwtDecode from "jwt-decode";
 
-const CmAccount = (props) => {
+const CmAccount = () => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
 

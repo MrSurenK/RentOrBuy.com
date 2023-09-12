@@ -19,8 +19,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [memberSince, setMemberSince] = useState("");
   const [lastLogin, setLastLogin] = useState("");
-
-  // const [profilePic, setProfilePic] = useState(null);
+  const [profilePic, setProfilePic] = useState("");
 
   return (
     <>
@@ -42,8 +41,8 @@ function App() {
           setMemberSince,
           lastLogin,
           setLastLogin,
-          // profilePic,
-          // setProfilePic,
+          profilePic,
+          setProfilePic,
         }}
       >
         <BrowserRouter>
