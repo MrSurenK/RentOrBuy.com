@@ -104,6 +104,7 @@ const CmAccount = () => {
 
       if (response.ok) {
         console.log("Update successful!", data);
+        getAccountDetails();
       } else {
         throw new Error("Network response was not ok" + data.message);
       }
