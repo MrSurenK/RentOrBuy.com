@@ -18,6 +18,7 @@ function App() {
   const [nric, setNric] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [memberSince, setMemberSince] = useState("");
+  const [lastLogin, setLastLogin] = useState("");
 
   // const [profilePic, setProfilePic] = useState(null);
 
@@ -39,6 +40,8 @@ function App() {
           isLoggedIn,
           memberSince,
           setMemberSince,
+          lastLogin,
+          setLastLogin,
           // profilePic,
           // setProfilePic,
         }}

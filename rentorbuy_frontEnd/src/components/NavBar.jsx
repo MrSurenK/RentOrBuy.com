@@ -32,6 +32,7 @@ const NavBar = () => {
       userCtx.setMemberSince(decoded.account_creation_date);
       userCtx.setNric(decoded.nric);
       userCtx.setIsActive(decoded.is_active);
+      userCtx.setLastLogin(decoded.last_login);
 
       // userCtx.setProfilePic(decoded.profile_pic);
       alert("Succesfully Logged In!"); //Comment out before presentation
@@ -136,7 +137,7 @@ const NavBar = () => {
                     {userCtx.first_name} {userCtx.last_name}
                   </div>
                   <div class="text-sm text-gray-500 dark:text-gray-400">
-                    Joined in {userCtx.memberSince}
+                    Last log in: {userCtx.lastLogin}
                   </div>
                 </div>
               </div>

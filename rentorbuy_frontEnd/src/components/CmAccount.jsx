@@ -24,6 +24,7 @@ const CmAccount = (props) => {
     }
   };
   useEffect(() => {
+    console.log(userCtx);
     getAccountDetails();
   }, [userCtx.isLoggedIn]);
 
