@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
+    "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
     "node_modules/flowbite-react/**/*",
     "index.html",
     "./src/**/*.{html,js,jsx}",
