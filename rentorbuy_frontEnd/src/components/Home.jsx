@@ -14,6 +14,7 @@ const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedRental, setSelectedRental] = useState(null);
 
+  // Custom date picker configuration
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
@@ -23,6 +24,8 @@ const Home = () => {
     console.log("newValue:", newValue);
     setValue(newValue);
   };
+
+  // GET Rentals API
 
   const getRentals = async () => {
     const res = await fetchData("/dealer/cars/rentals", "GET", undefined);
@@ -39,6 +42,30 @@ const Home = () => {
     console.log(userCtx);
     getRentals();
   }, []);
+
+  // POST CUSTOMER RENTALS API
+  const handleRentalBooking = async (e) => {
+    const bookingData = {
+      car_id: selectedRental.vehicle_id,
+      rental_price: selectedRental.rental_rate,
+      transaction_amount: selectedRental.rental_rate,
+      rental_start_date: value.startDate,
+      rental_end_date: value.endDate,
+    };
+
+    const res = await fetchData(
+      "/customer/rental",
+      "POST",
+      bookingData,
+      userCtx.accessToken
+    );
+    if (res.ok) {
+      alert("Booking successful");
+      setShowModal(false); //Close the modal
+    } else {
+      alert("Booking failed: " + res.data);
+    }
+  };
 
   return (
     <>
@@ -98,7 +125,11 @@ const Home = () => {
             <h3 class="mb-4 text-xl font-medium text-gray-900">
               Confirm Rental
             </h3>
-            <form className="space-y-6" action="#">
+            <form
+              className="space-y-6"
+              action="#"
+              onSubmit={handleRentalBooking}
+            >
               <div>
                 <label
                   htmlFor="customer_profile"
@@ -125,6 +156,21 @@ const Home = () => {
                   type="text"
                   name="car_model"
                   value={`${selectedRental.brand} ${selectedRental.model}`}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5"
+                  readOnly
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="car_id"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Car Id
+                </label>
+                <input
+                  type="text"
+                  name="car_model"
+                  value={selectedRental.vehicle_id}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5"
                   readOnly
                 />

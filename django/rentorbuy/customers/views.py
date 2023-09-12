@@ -6,6 +6,7 @@ from .serializers import CustomerAccountSerializer, RentalSerializer, CarSaleSer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.db.models import Q
 
 
 class JwtDetails(APIView):
@@ -235,11 +236,28 @@ class CreateRental(APIView):
     def post(self, request):
         data = request.data.copy()
         data['customer_nric'] = request.user.nric  # Assuming that nric is a field in your JWT payload and mapped to request.user
-        serializer = RentalSerializer(data=data)
+
+        car_id = data.get('vehicle_id')
+        start_date = data.get('rental_start_date')
+        end_date = data.get('rental_end_date')
 
         # Assuming car_id is in the request payload
         if 'car_id' not in data:
             return Response({"error": "car_id must be provided in payload."}, status=status.HTTP_400_BAD_REQUEST)
+        if not start_date or not end_date:
+            return Response({"error": "Both start_date and end_date must be provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check for exisiting bookings that overlap with the requested data range
+        overlapping_bookings = Rental.objects.filter(
+            Q(car_id=car_id) &
+            (
+                    Q(rental_start_date__lte=end_date, rental_end_date__gte=start_date) |
+                    Q(rental_start_date__gte=start_date, rental_start_date__lte=end_date)
+            )
+        )
+
+        if overlapping_bookings.exists():
+            return Response({"error": "The car is already booked on the requested dates."}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = RentalSerializer(data=data)
 

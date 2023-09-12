@@ -134,7 +134,7 @@ class Rental(models.Model):
     transaction_date = models.DateTimeField(auto_now_add=True)
     rental_start_date = models.DateTimeField()
     rental_end_date = models.DateTimeField()
-    rental_status = models.CharField(max_length=2, choices=Status.choices)
+    rental_status = models.CharField(max_length=2, choices=Status.choices, default=Status.NOT_COLLECTED)
     car_id = models.ForeignKey(Car, on_delete=models.DO_NOTHING, null=True)
 
 
