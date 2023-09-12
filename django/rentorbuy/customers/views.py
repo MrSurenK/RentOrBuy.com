@@ -76,6 +76,7 @@ class CreateCustomerAccount(APIView):
 
 class EditCustomerAccount(APIView):
     permission_classes = (IsAuthenticated,)
+    parser_classes = [MultiPartParser, FormParser]
 
     def patch(self,request):
         nric = request.user.nric
@@ -93,6 +94,8 @@ class EditCustomerAccount(APIView):
         serializer = CustomerAccountSerializer(customer, data=request.data, partial=True)
 
         if serializer.is_valid():
+            validated_data = serializer.validated_data
+            validated_data['profile_pic'] = request.FILES.get('profile_pic', None)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

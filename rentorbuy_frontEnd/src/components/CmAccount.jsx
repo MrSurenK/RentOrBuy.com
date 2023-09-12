@@ -23,6 +23,7 @@ const CmAccount = () => {
       alert(JSON.stringify(res.data));
     }
   };
+
   useEffect(() => {
     console.log(userCtx);
     getAccountDetails();
@@ -31,6 +32,8 @@ const CmAccount = () => {
   useEffect(() => {
     console.log("accountDetails updated:", accountDetails);
   }, [accountDetails]);
+
+  const updateAccount = async () => {};
 
   return (
     <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen flex justify-center mt-10">
@@ -139,6 +142,26 @@ const CmAccount = () => {
                 Phone number (+65 62944757)
               </label>
             </div>
+          </div>
+          <div>
+            <label
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              for="file_input"
+            >
+              Profile Picture
+            </label>
+            <input
+              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              aria-describedby="file_input_help"
+              id="file_input"
+              type="file"
+            />
+            <p
+              class="mt-1 text-sm text-gray-500 dark:text-gray-300"
+              id="file_input_help"
+            >
+              SVG, PNG, JPG or GIF (MAX. 800x400px).
+            </p>
           </div>
           <button
             type="submit"
