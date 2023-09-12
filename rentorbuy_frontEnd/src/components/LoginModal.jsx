@@ -9,7 +9,7 @@ const LoginModal = ({ isVisible, onClose, children }) => {
 
   return (
     <div
-      className=" shadow-lg rounded-lg fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
+      className=" z-50 shadow-lg rounded-lg fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
       id="wrapper"
       onClick={handleClose}
     >
