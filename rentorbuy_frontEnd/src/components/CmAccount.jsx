@@ -30,10 +30,88 @@ const CmAccount = () => {
   }, [userCtx.isLoggedIn]);
 
   useEffect(() => {
-    console.log("accountDetails updated:", accountDetails);
+    console.log("accountDetails:", accountDetails);
   }, [accountDetails]);
 
-  const updateAccount = async () => {};
+  // Update acount information states and functions
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+
+  const [editAddress, setEditAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [postal, setPostal] = useState("");
+  const [file, setFile] = useState(null);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    console.log(`Field changed: ${name}, New value: ${value}`);
+
+    switch (name) {
+      case "email":
+        setEmail(value);
+        break;
+      case "contact":
+        setContact(value);
+        break;
+      case "editAddress":
+        setEditAddress(value);
+        break;
+      case "city":
+        setCity(value);
+        break;
+      case "postal":
+        setPostal(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const fullAddress = `${editAddress} ${city} ${postal}`;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("contact_no", contact);
+    formData.append("address", fullAddress);
+
+    if (file) {
+      formData.append("profile_pic", file);
+    }
+    // Cant use customer fetch hook because the head has to accept formData not application/JSON
+    console.log(userCtx.accessToken);
+
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_SERVER + "/customer/editInfo/",
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: "Bearer " + userCtx.accessToken,
+          },
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Update successful!", data);
+      } else {
+        throw new Error("Network response was not ok" + data.message);
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+      console.error("Error", error);
+    }
+  };
 
   return (
     <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen flex justify-center mt-10">
@@ -59,18 +137,18 @@ const CmAccount = () => {
         </div>
         <div className="mt-10">Edit Personal Information</div>
 
-        <form>
+        <form noValidate="" action="" onSubmit={handleSubmit}>
           <div className="relative z-0 w-full mb-6 group">
             <input
               type="email"
-              name="floating_email"
-              id="floating_email"
+              name="email"
+              id="email"
+              valie={email}
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
+              onChange={handleInputChange}
             />
             <label
-              for="floating_email"
+              htmlFor="email"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Email address
@@ -78,14 +156,15 @@ const CmAccount = () => {
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
-              type="address"
+              type="text"
               name="address"
               id="address"
+              value={editAddress}
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              onChange={handleInputChange}
             />
             <label
-              for="address"
+              htmlFor="address"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Address
@@ -96,13 +175,14 @@ const CmAccount = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="floating_first_name"
-                id="floating_first_name"
+                name="city"
+                id="city"
+                value={city}
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
+                onChange={handleInputChange}
               />
               <label
-                for="floating_first_name"
+                htmlFor="city"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 City
@@ -111,13 +191,14 @@ const CmAccount = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="text"
-                name="floating_last_name"
-                id="floating_last_name"
+                name="postal"
+                value={postal}
+                id="postal"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
+                onChange={handleInputChange}
               />
               <label
-                for="floating_last_name"
+                htmlFor="floating_last_name"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Postal
@@ -128,15 +209,14 @@ const CmAccount = () => {
             <div className="relative z-0 w-full mb-6 group">
               <input
                 type="tel"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                name="floating_phone"
-                id="floating_phone"
+                name="contact"
+                id="contact"
+                value={contact}
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
+                onChange={handleInputChange}
               />
               <label
-                for="floating_phone"
+                htmlFor="contact"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Phone number (+65 62944757)
@@ -155,9 +235,10 @@ const CmAccount = () => {
               aria-describedby="file_input_help"
               id="file_input"
               type="file"
+              onChange={handleFileChange}
             />
             <p
-              class="mt-1 text-sm text-gray-500 dark:text-gray-300"
+              className="mt-1 text-sm text-gray-500 dark:text-gray-300"
               id="file_input_help"
             >
               SVG, PNG, JPG or GIF (MAX. 800x400px).

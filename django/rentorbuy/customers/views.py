@@ -74,28 +74,51 @@ class CreateCustomerAccount(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class EditCustomerAccount(APIView):
     permission_classes = (IsAuthenticated,)
     parser_classes = [MultiPartParser, FormParser]
 
-    def patch(self,request):
+    def patch(self, request):
+        print(request.user)
+
         nric = request.user.nric
         try:
             customer = CustomerAccount.objects.get(nric=nric)
         except CustomerAccount.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        data = {
-            'address': request.data.get('address', customer.address),
-            'contact_no': request.data.get('contact_no', customer.contact_no),
-            'email': request.data.get('email', customer.email)
-        }
+        request_dict = request.data.dict()
 
-        serializer = CustomerAccountSerializer(customer, data=request.data, partial=True)
+        print(request_dict)
+
+        data = {}
+
+        if 'address' in request_dict and len(request_dict['address'].strip()) > 0:
+            data['address'] = request_dict['address']
+        #
+        if 'contact_no' in request_dict and len(request_dict['contact_no'].strip()) > 0:
+            data['contact_no'] = request_dict['contact_no']
+
+        if 'email' in request_dict and len(request_dict['email'].strip()) > 0:
+            data['email'] = request_dict['email']
+
+        if 'profile_pic' in request.data:
+            data['profile_pic'] = request.FILES.get('profile_pic', None)
+
+        # data = {
+        #     'address': request.data.get('address', customer.address),
+        #     'contact_no': request.data.get('contact_no', customer.contact_no),
+        #     'email': request.data.get('email', customer.email),
+        #     'profile_pic': request.FILES.get('profile_pic', None),
+        # }
+
+        print(data)
+
+        serializer = CustomerAccountSerializer(customer, data=data, partial=True)
 
         if serializer.is_valid():
-            validated_data = serializer.validated_data
-            validated_data['profile_pic'] = request.FILES.get('profile_pic', None)
+            print(1)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
