@@ -75,9 +75,11 @@ sg_num_validator = RegexValidator(
     code='invalid_contact_number'
 )
 
+
 # Function for profile picture upload
 def upload_to(instance, filename):
     return 'profile_pics/{filename}'.format(filename=filename)
+
 
 class CustomerAccount(AbstractBaseUser):
     nric = models.CharField(max_length=9, unique=True, primary_key=True, validators=[nric_validator])

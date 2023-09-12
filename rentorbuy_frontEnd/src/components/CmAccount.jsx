@@ -3,7 +3,7 @@ import useFetch from "../hooks/useFetch";
 import UserContext from "../context/user";
 import jwtDecode from "jwt-decode";
 
-const CmAccount = () => {
+const CmAccount = (props) => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
 
@@ -24,9 +24,8 @@ const CmAccount = () => {
     }
   };
   useEffect(() => {
-    console.log("userCtx:", userCtx);
     getAccountDetails();
-  }, []);
+  }, [userCtx.isLoggedIn]);
 
   useEffect(() => {
     console.log("accountDetails updated:", accountDetails);
