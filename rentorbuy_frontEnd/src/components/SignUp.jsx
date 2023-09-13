@@ -113,6 +113,7 @@ const SignUp = () => {
                       name="first_name"
                       onChange={handleChange}
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                      required
                     />
                   </div>
                   <div className="col-span-full sm:col-span-3">
@@ -126,6 +127,7 @@ const SignUp = () => {
                       name="last_name"
                       onChange={handleChange}
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                      required
                     />
                   </div>
                   <div className="col-span-full sm:col-span-3">
@@ -139,6 +141,7 @@ const SignUp = () => {
                       name="email"
                       onChange={handleChange}
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                      required
                     />
                   </div>
                   <div className="row-start-3 col-span-3 sm:col-span-2 md:col-span-2 ">
@@ -152,6 +155,7 @@ const SignUp = () => {
                       name="nric"
                       onChange={handleChange}
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                      required
                     />
                   </div>
                   <div className="row-start-3 col-span-2 sm:col-span-1 pr-20">
@@ -164,6 +168,7 @@ const SignUp = () => {
                       name="age"
                       onChange={handleChange}
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                      required
                     />
                   </div>
                   <div className="row-start-4 col-span-3 sm:col-span-2 md:col-span-2 ">
@@ -179,6 +184,7 @@ const SignUp = () => {
                       maxlength="12"
                       onChange={handleChange}
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
+                      required
                     />
                   </div>
                   <div className="col-span-full">
@@ -190,6 +196,7 @@ const SignUp = () => {
                       type="text"
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                       onChange={(e) => setAddressField(e.target.value)}
+                      required
                     />
                   </div>
                   <div className="col-span-full sm:col-span-2">
@@ -202,6 +209,7 @@ const SignUp = () => {
                       value="Singapore"
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                       onChange={(e) => setCity(e.target.value)}
+                      required
                     />
                   </div>
                   {/* <div className="col-span-full sm:col-span-2">
@@ -228,6 +236,7 @@ const SignUp = () => {
                       onChange={(e) => {
                         setZip(e.target.value);
                       }}
+                      required
                     />
                   </div>
                   <div className="row-start-9 col-span-full sm:col-span-3">
@@ -269,6 +278,7 @@ const SignUp = () => {
                       name="password"
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                       onChange={handleChange}
+                      required
                     />
                   </div>
                 </div>
