@@ -4,10 +4,16 @@ from dealer.serializers import CarSerializer
 
 
 class CustomerAccountSerializer(serializers.ModelSerializer):
-    profile_pic = serializers.ImageField(use_url=True)
+    # profile_pic = serializers.ImageField(use_url=True)
+    # class Meta:
+    #     model = CustomerAccount
+    #     fields = '__all__'
     class Meta:
         model = CustomerAccount
-        fields = '__all__'
+        fields = ['nric', 'first_name', 'last_name', 'profile_pic', 'age', 'email', 'contact_no', 'address', 'valid_license','is_active', 'password']
+        extra_kwargs = {
+            'profile_pic': {'required': False, 'allow_null': True, 'default': 'profile_pics/default.jpg'},
+        }
 
 
 class RentalWriteSerializer(serializers.ModelSerializer):
