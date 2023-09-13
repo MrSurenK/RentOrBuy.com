@@ -75,9 +75,23 @@ const Home = () => {
     const bookingData = {
       car_id: selectedSale.vehicle_id,
       viewing_date: value.startDate,
-      viewing_time: "14:30:00",
-      transaction_amount: selectedSale.transaction_amount,
+      viewing_time: time,
+      transaction_amount: selectedSale.sale_price,
     };
+
+    const res = await fetchData(
+      "/customer/carSale",
+      "POST",
+      bookingData,
+      userCtx.accessToken
+    );
+    if (res.ok) {
+      alert("Booking successful");
+      setShowModal(false);
+    } else {
+      console.log(selectedSale.vehicle_id);
+      alert("Booking failed" + res.data);
+    }
   };
 
   // POST CUSTOMER RENTALS API
@@ -295,7 +309,7 @@ const Home = () => {
             <h3 class="mb-4 text-xl font-medium text-gray-900">
               Confirm Rental
             </h3>
-            <form className="space-y-6" action="#">
+            <form className="space-y-6" action="#" onSubmit={handleSaleBooking}>
               <div>
                 <label
                   htmlFor="customer_profile"
