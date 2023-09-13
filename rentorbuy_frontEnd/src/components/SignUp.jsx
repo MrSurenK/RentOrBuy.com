@@ -46,7 +46,6 @@ const SignUp = () => {
     const updatedRegister = {
       ...register,
       address: fullAddress,
-      profile_pic: file,
     };
 
     const formData = new FormData();
@@ -152,6 +151,7 @@ const SignUp = () => {
                       id="nric"
                       type="text"
                       placeholder="S1234567A"
+                      maxLength="9"
                       name="nric"
                       onChange={handleChange}
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
@@ -166,6 +166,7 @@ const SignUp = () => {
                       id="age"
                       type="number"
                       name="age"
+                      maxlength="2"
                       onChange={handleChange}
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                       required

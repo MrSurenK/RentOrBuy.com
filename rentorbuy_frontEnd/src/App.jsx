@@ -20,7 +20,9 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [memberSince, setMemberSince] = useState("");
   const [lastLogin, setLastLogin] = useState("");
-  const [profilePic, setProfilePic] = useState("");
+  const [profilePic, setProfilePic] = useState(
+    "/media/profile_pics/default.jpg"
+  );
 
   return (
     <>
