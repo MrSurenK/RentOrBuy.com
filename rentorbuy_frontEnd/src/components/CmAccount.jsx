@@ -2,10 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import useFetch from "../hooks/useFetch";
 import UserContext from "../context/user";
 import jwtDecode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const CmAccount = () => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
+  const navigate = useNavigate();
 
   const [accountDetails, setAccountDetails] = useState([]);
 
@@ -32,6 +34,25 @@ const CmAccount = () => {
   useEffect(() => {
     console.log("accountDetails:", accountDetails);
   }, [accountDetails]);
+
+  // Delete account by changing activity from active to inactive. ( Do not let inactive log in )
+  const deleteAccount = async (e) => {
+    const res = await fetchData(
+      "/customer/delete/",
+      "DELETE",
+      { is_active: false },
+      userCtx.accessToken
+    );
+
+    if (res.ok) {
+      alert("Account Deleted!");
+      navigate("/home"); //Return to homepage
+      console.log(accountDetails);
+    } else {
+      alert(JSON.stringify(res.data));
+      console.log(res.data);
+    }
+  };
 
   // Update acount information states and functions
   const [email, setEmail] = useState("");
@@ -116,7 +137,7 @@ const CmAccount = () => {
 
   return (
     <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen flex justify-center mt-10">
-      <div className="grid palce-items-center h-screen mt-20">
+      <div className="grid place-items-center h-screen mt-20">
         <div className="rounded 3xl p-6 w-[450px] text-white h-[250px] bg-secondary">
           <div className="flex flex-col justify-start ">
             <img
@@ -134,6 +155,14 @@ const CmAccount = () => {
             <div>{accountDetails.email}</div>
             <div>{accountDetails.contact_no}</div>
             <div>{accountDetails.address}</div>
+            <div>
+              <button
+                className="bg-red-500 rounded-lg w-max py-2.5 px-2.5"
+                onClick={deleteAccount}
+              >
+                Delete Account
+              </button>
+            </div>
           </div>
         </div>
         <div className="mt-10">Edit Personal Information</div>
