@@ -26,6 +26,12 @@ class CarSaleSerializer(serializers.ModelSerializer):
         model = CarSale
         fields = '__all__'
 
+class CarSaleDisplaySerializer(serializers.ModelSerializer):
+    car_id = CarSerializer()
+    class Meta:
+        model = CarSale
+        fields = '__all__'
+
 class ComplaintSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complaint

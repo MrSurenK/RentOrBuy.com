@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import CustomerAccount, Rental, CarSale
-from .serializers import CustomerAccountSerializer, RentalReadSerializer, CarSaleSerializer, RentalWriteSerializer
+from .serializers import CustomerAccountSerializer, RentalReadSerializer, CarSaleSerializer, RentalWriteSerializer, CarSaleDisplaySerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -192,7 +192,7 @@ class CustomerSaleHistory(APIView):
             return Response(status=status.HTTP_400_NOT_FOUND)
 
         sales = CarSale.objects.filter(customer_nric=customer)
-        serializer = CarSaleSerializer(sales, many=True)
+        serializer = CarSaleDisplaySerializer(sales, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 

@@ -8,6 +8,7 @@ const CmHistory = () => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
   const [rentals, setRentals] = useState([]);
+  const [appt, setAppt] = useState([]);
 
   const getRentalHistory = async () => {
     const res = await fetchData(
@@ -25,9 +26,28 @@ const CmHistory = () => {
     }
   };
 
+  // Get sale transaction history
+  const getSaleHistory = async () => {
+    const res = await fetchData(
+      "/customer/cars/sales/",
+      "GET",
+      undefined,
+      userCtx.accessToken
+    );
+
+    if (res.ok) {
+      setAppt(res.data);
+      console.log(res.data);
+    } else {
+      alert(JSON.stringify(res.data));
+      console.log(res.data);
+    }
+  };
+
   // Only return data if user is logged in
   useEffect(() => {
     getRentalHistory();
+    getSaleHistory();
   }, [userCtx.isLoggedIn]);
 
   return (
@@ -61,6 +81,26 @@ const CmHistory = () => {
                           <div>Start Date: {rental.rental_start_date}</div>
                           <div>End Date: {rental.rental_end_date}</div>
                           <div>Rental_Status: {rental.rental_status}</div>
+                        </Card>
+                      ))}
+                    </div>
+                    <div className="flex flex-column justify-between">
+                      {appt.map((apt, index) => (
+                        <Card
+                          key={index}
+                          imgAlt="Sale Car Appt"
+                          imgSrc={
+                            import.meta.env.VITE_SERVER +
+                            apt.car_id.vehicle_image
+                          }
+                          className="w-full mx-auto"
+                        >
+                          <div>
+                            {apt.car_id.brand} {apt.car_id.model}
+                          </div>
+                          <div>Price: ${apt.transaction_amount}</div>
+                          <div>Appt Date: {apt.viewing_date}</div>
+                          <div>Time: {apt.viewing_time}</div>
                         </Card>
                       ))}
                     </div>
