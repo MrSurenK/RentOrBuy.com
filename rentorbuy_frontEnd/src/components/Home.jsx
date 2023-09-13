@@ -359,6 +359,7 @@ const Home = () => {
               <div>
                 <Datepicker
                   useRange={false}
+                  asSingle={true}
                   value={value}
                   onChange={handleValueChange}
                 />
