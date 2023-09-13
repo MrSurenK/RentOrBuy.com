@@ -174,7 +174,9 @@ const SignUp = () => {
                       id="contact_no"
                       type="tel"
                       placeholder="+65 12345678"
+                      pattern="^\+65 \d{8}$"
                       name="contact_no"
+                      maxlength="12"
                       onChange={handleChange}
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                     />
@@ -197,7 +199,7 @@ const SignUp = () => {
                     <input
                       id="city"
                       type="text"
-                      placeholder=""
+                      value="Singapore"
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                       onChange={(e) => setCity(e.target.value)}
                     />
@@ -221,6 +223,7 @@ const SignUp = () => {
                       id="zip"
                       type="text"
                       placeholder=""
+                      maxlength="6"
                       className="w-full rounded-md focus:ring focus:ri focus:ri dark:border-gray-700 dark:text-gray-900"
                       onChange={(e) => {
                         setZip(e.target.value);
