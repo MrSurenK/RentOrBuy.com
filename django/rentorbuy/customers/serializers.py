@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import CustomerAccount, Rental, CarSale, Complaint, Fine, Insurance
+from dealer.serializers import CarSerializer
 
 
 class CustomerAccountSerializer(serializers.ModelSerializer):
@@ -9,7 +10,13 @@ class CustomerAccountSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class RentalSerializer(serializers.ModelSerializer):
+class RentalWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rental
+        fields = '__all__'
+
+class RentalReadSerializer(serializers.ModelSerializer):
+    car_id = CarSerializer()
     class Meta:
         model = Rental
         fields = '__all__'

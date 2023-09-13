@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import CustomerAccount, Rental, CarSale
-from .serializers import CustomerAccountSerializer, RentalSerializer, CarSaleSerializer
+from .serializers import CustomerAccountSerializer, RentalReadSerializer, CarSaleSerializer, RentalWriteSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -173,9 +173,9 @@ class CustomerRentalHistory(APIView):
             customer = CustomerAccount.objects.get(nric=nric)
         except CustomerAccount.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
-        rentals = Rental.objects.filter(customer_nric=customer)
-        serializer = RentalSerializer(rentals, many=True)
+        # access to all the car model items via .select_related('car_id')
+        rentals = Rental.objects.filter(customer_nric=customer).select_related('car_id')
+        serializer = RentalReadSerializer(rentals, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -259,7 +259,7 @@ class CreateRental(APIView):
         if overlapping_bookings.exists():
             return Response({"error": "The car is already booked on the requested dates."}, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = RentalSerializer(data=data)
+        serializer = RentalWriteSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
