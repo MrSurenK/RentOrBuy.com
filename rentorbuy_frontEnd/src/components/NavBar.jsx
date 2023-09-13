@@ -11,12 +11,17 @@ const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const userCtx = useContext(UserContext);
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
   const fetchData = useFetch();
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -66,6 +71,11 @@ const NavBar = () => {
     { link: "Home", path: "home" },
     { link: "Rentals", path: "rentals" },
     { link: "For Sale", path: "forSale" },
+  ];
+
+  const userMenu = [
+    { link: "My Account", path: "account" },
+    { link: "Account Activity", path: "transactions" },
   ];
 
   return (
@@ -125,12 +135,33 @@ const NavBar = () => {
             )}
 
             {userCtx.isLoggedIn && (
-              <div class="flex items-center space-x-4">
-                <img
-                  class="w-10 h-10 rounded-full"
-                  src={`${import.meta.env.VITE_SERVER}/${userCtx.profilePic}`}
-                  alt="profile_pic"
-                />
+              <div class="flex items-center space-x-4 relative">
+                <button
+                  onClick={toggleDropdown}
+                  className="flex items-center space-x-4 "
+                >
+                  <img
+                    class="w-10 h-10 rounded-full"
+                    src={`${import.meta.env.VITE_SERVER}/${userCtx.profilePic}`}
+                    alt="profile_pic"
+                  />
+                </button>
+
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-40 w-56 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 transition ease-in-out ">
+                    <div className="py-1 flex flex-col w-full">
+                      {userMenu.map(({ link, path }) => (
+                        <Link
+                          to={path}
+                          key={path}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          {link}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div class="font-medium dark:text-white">
                   <div>
                     {userCtx.first_name} {userCtx.last_name}
