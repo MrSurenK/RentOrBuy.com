@@ -98,6 +98,11 @@ const CmAccount = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (editAddress && (!city || !postal)) {
+      alert("Please fill out city and postal fields.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("email", email);
     formData.append("contact_no", contact);
