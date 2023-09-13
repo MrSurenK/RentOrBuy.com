@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import UserContext from "../context/user";
 import Datepicker from "react-tailwindcss-datepicker";
 import { get } from "react-scroll/modules/mixins/scroller";
+import TimePicker from "react-time-picker";
 
 const Home = () => {
   const fetchData = useFetch();
@@ -26,6 +27,13 @@ const Home = () => {
   const handleValueChange = (newValue) => {
     console.log("newValue:", newValue);
     setValue(newValue);
+  };
+
+  const [time, setTime] = useState(null);
+
+  const handleTimeChange = (newTime) => {
+    setTime(newTime.target.value);
+    console.log(time);
   };
 
   // GET Rentals API
@@ -58,6 +66,18 @@ const Home = () => {
       alert(JSON.stringify(res.data));
       console.log(res.data);
     }
+  };
+
+  // POST Customer SALES API
+  const handleSaleBooking = async (e) => {
+    e.preventDefault();
+
+    const bookingData = {
+      car_id: selectedSale.vehicle_id,
+      viewing_date: value.startDate,
+      viewing_time: "14:30:00",
+      transaction_amount: selectedSale.transaction_amount,
+    };
   };
 
   // POST CUSTOMER RENTALS API
@@ -341,6 +361,17 @@ const Home = () => {
                   useRange={false}
                   value={value}
                   onChange={handleValueChange}
+                />
+              </div>
+              <div>
+                <input
+                  type="time"
+                  id="appt"
+                  name="appt"
+                  min="09:00"
+                  max="18:00"
+                  required
+                  onChange={handleTimeChange}
                 />
               </div>
               <button

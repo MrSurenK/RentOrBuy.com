@@ -10,17 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^7.5.0",
     "dayjs": "^1.11.9",
     "flowbite-datepicker": "^1.2.2",
     "flowbite-react": "^0.5.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
+    "react-datetime": "^3.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
     "react-router": "^6.15.0",
     "react-router-dom": "^6.15.0",
     "react-scroll": "^1.8.9",
-    "react-tailwindcss-datepicker": "^1.6.6"
+    "react-tailwindcss-datepicker": "^1.6.6",
+    "react-time-picker": "^6.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
