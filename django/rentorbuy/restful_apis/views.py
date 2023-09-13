@@ -18,7 +18,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['is_Active'] = user.is_active
         # To convert datetime to the right format. This method works granted that it is a field that is no nullable
         token['account_creation_date'] = user.account_creation_date.strftime('%d/%m/%Y')
-        token['last_login'] = user.last_login.strftime('%d/%m/%Y')
+        if user.last_login:
+            token['last_login'] = user.last_login.strftime('%d/%m/%Y')
+        else:
+            token['last_login'] = now().strftime('%d/%m/%Y')  # Set it to the current time if it's None
         default_profile_pic_path = 'profile_pics/default.jpg'
         if user.profile_pic and user.profile_pic.name != default_profile_pic_path:
             token['profile_pic'] = user.profile_pic.url

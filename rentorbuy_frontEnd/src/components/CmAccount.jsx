@@ -46,8 +46,8 @@ const CmAccount = () => {
 
     if (res.ok) {
       alert("Account Deleted!");
+      window.location.reload();
       navigate("/home"); //Return to homepage
-      console.log(accountDetails);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
