@@ -143,15 +143,17 @@ const CmAccount = () => {
   return (
     <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen flex justify-center mt-10">
       <div className="grid place-items-center h-screen mt-20">
-        <div className="rounded 3xl p-6 w-[450px] text-white h-[250px] bg-secondary flex flex-row">
-          <div className="flex flex-col justify-start w-fit">
-            <img
-              src={accountDetails.profile_pic}
-              alt="profile pic"
-              className="w-20 h-20 rounded-full"
-            />
+        <div className="rounded 3xl p-6 w-[450px] text-white h-[250px] bg-secondary flex flex-col">
+          <div className="flex flex-row justify-between w-fit">
+            <div clssName="flex flex-column">
+              <img
+                src={accountDetails.profile_pic}
+                alt="profile pic"
+                className="w-20 h-20 rounded-full"
+              />
+            </div>
 
-            <div className="flex flex-row justify-items-end">
+            <div className="flex flex-col justify-items-end">
               <div>{accountDetails.nric}</div>
               <dic>
                 {accountDetails.first_name} {accountDetails.last_name}
@@ -161,8 +163,10 @@ const CmAccount = () => {
               <div>{accountDetails.contact_no}</div>
               <div>{accountDetails.address}</div>
             </div>
+          </div>
 
-            <div>
+          <div className="flex flex-row justify-center">
+            <div className="mr-4">
               <button
                 className="bg-red-500 rounded-lg w-max py-2.5 px-2.5"
                 onClick={deleteAccount}
@@ -170,6 +174,7 @@ const CmAccount = () => {
                 Delete Account
               </button>
             </div>
+
             <div>
               <button className="bg-blue-500 rounded-lg w-fit py-2.5 px-3">
                 Edit Profile
