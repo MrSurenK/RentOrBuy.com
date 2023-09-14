@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import useFetch from "../hooks/useFetch";
-import BannerCar from "../assets/car_no_background.png";
+import BannerCar from "../assets/GreenLambo.jpg";
+import bmwLogo from "../assets/car_icons/bmw.png";
+import hondaLogo from "../assets/car_icons/honda.png";
+import lancerLogo from "../assets/car_icons/lancer.png";
+import mazdaLogo from "../assets/car_icons/mazda.png";
 import { Card } from "flowbite-react";
 import Modal from "./Modal";
 import UserContext from "../context/user";
@@ -120,15 +124,29 @@ const Home = () => {
     }
   };
 
+  const carLogos = [bmwLogo, lancerLogo, hondaLogo, mazdaLogo];
+
   return (
     <>
-      <div className="mt-clearNav  bg-neutralSilver ">
-        <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen">
-          <div className="w-full mx-auto">
-            <img src={BannerCar} alt="Banner Car" />
+      <div className="mt-clearNav  bg-gray900 ">
+        <div className="w-full mx-auto">
+          <img
+            src={BannerCar}
+            alt="Banner Car"
+            className="bg-cover bg-center"
+          />
+        </div>
+
+        <div className="h-80 max-w-screen bg-neutralSilver flex flex-col">
+          <div className="flex flex-row justify-center items-center h-3/6 text-3xl">
+            Our Brands
+          </div>
+          <div className="flex flex-row justify-around w-full">
+            {carLogos.map((car, index) => (
+              <img src={car} alt="index" className="h-20" />
+            ))}
           </div>
         </div>
-        <div className="h-80 max-w-screen bg-stone-500">Search bar</div>
       </div>
       <div className="h-auto max-w-full">
         <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen  ">

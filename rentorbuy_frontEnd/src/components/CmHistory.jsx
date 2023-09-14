@@ -82,7 +82,7 @@ const CmHistory = () => {
 
   return (
     <>
-      <div className="mt-clearNav  bg-neutralSilver ">
+      <div className="mt-clearNav">
         <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen  ">
           <div className="w-full mx-auto">
             <div className="h-screen max-w-screen">
