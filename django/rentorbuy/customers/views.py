@@ -237,11 +237,14 @@ class CreateRental(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request):
         data = request.data.copy()
+        print(data)
         data['customer_nric'] = request.user.nric  # Assuming that nric is a field in your JWT payload and mapped to request.user
 
-        car_id = data.get('vehicle_id')
+        car_id = data.get('car_id')
         start_date = data.get('rental_start_date')
         end_date = data.get('rental_end_date')
+        print(car_id)
+
 
         # Assuming car_id is in the request payload
         if 'car_id' not in data:
@@ -251,12 +254,16 @@ class CreateRental(APIView):
 
         # Check for exisiting bookings that overlap with the requested data range
         overlapping_bookings = Rental.objects.filter(
-            Q(car_id=car_id) &
+            Q(car_id=car_id) &  # Include the customer ID here
             (
-                    Q(rental_start_date__lte=end_date, rental_end_date__gte=start_date) |
-                    Q(rental_start_date__gte=start_date, rental_start_date__lte=end_date)
+                    Q(rental_start_date__lte=start_date, rental_end_date__gte=start_date) |
+                    Q(rental_start_date__lte=end_date, rental_end_date__gte=end_date) |
+                    Q(rental_start_date__gte=start_date, rental_end_date__lte=end_date)
             )
         )
+
+
+        print(f"Car ID: {car_id}, Start Date: {start_date}, End Date: {end_date}")
 
         if overlapping_bookings.exists():
             return Response({"error": "The car is already booked on the requested dates."}, status=status.HTTP_400_BAD_REQUEST)

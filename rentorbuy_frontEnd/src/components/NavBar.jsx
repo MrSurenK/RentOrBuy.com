@@ -38,7 +38,12 @@ const NavBar = () => {
       userCtx.setNric(decoded.nric);
       userCtx.setIsActive(decoded.is_active);
       userCtx.setLastLogin(decoded.last_login);
-      userCtx.setProfilePic(decoded.profile_pic);
+      if (!decoded.profile_pic) {
+        userCtx.setProfilePic("/media/profile_pics/default.jpg");
+      } else {
+        userCtx.setProfilePic(decoded.profile_pic);
+      }
+
       alert("Succesfully Logged In!"); //Comment out before presentation
       setShowModal(false);
     } else {
@@ -146,7 +151,6 @@ const NavBar = () => {
                     alt="profile_pic"
                   />
                 </button>
-
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-40 w-56 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 transition ease-in-out ">
                     <div className="py-1 flex flex-col w-full">
