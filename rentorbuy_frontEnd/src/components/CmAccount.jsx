@@ -46,7 +46,7 @@ const CmAccount = () => {
 
     if (res.ok) {
       alert("Account Deleted!");
-      window.location.reload();
+      window.location.href = "http://localhost:5173/home";
       navigate("/home"); //Return to homepage
     } else {
       alert(JSON.stringify(res.data));
