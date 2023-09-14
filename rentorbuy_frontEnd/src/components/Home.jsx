@@ -146,8 +146,8 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="h-auto max-w-full">
-        <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen  ">
+      <div className="h-fit max-w-full">
+        <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-fit h-fit  ">
           <div className="text-3xl font-semibold mt-5">
             <p>Rentals</p>
             <div className="grid grid-cols-4">
@@ -279,7 +279,7 @@ const Home = () => {
       )}
       <div className="h-screen max-w-screen">
         <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen mt-auto">
-          <div className="text-3xl font-semibold mt-5">
+          <div className="text-3xl font-semibold mt-20">
             <p>Sale Cars</p>
             <div className="grid grid-cols-4">
               <hr className="w-full h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 bg-primary"></hr>
