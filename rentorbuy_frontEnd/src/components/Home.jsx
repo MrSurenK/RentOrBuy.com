@@ -123,14 +123,14 @@ const Home = () => {
   return (
     <>
       <div className="mt-clearNav  bg-neutralSilver ">
-        <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen  ">
+        <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen">
           <div className="w-full mx-auto">
             <img src={BannerCar} alt="Banner Car" />
           </div>
         </div>
         <div className="h-80 max-w-screen bg-stone-500">Search bar</div>
       </div>
-      <div className="h-screen max-w-screen">
+      <div className="h-auto max-w-full">
         <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen  ">
           <div className="text-3xl font-semibold mt-5">
             <p>Rentals</p>
@@ -138,7 +138,7 @@ const Home = () => {
               <hr className="w-full h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 bg-primary"></hr>
             </div>
           </div>
-          <div className="flex flex-column justify-between">
+          <div className="flex flex-row justify-between">
             {rentals.map((rental, index) => (
               <Card
                 key={index}
@@ -261,45 +261,46 @@ const Home = () => {
           </div>
         </Modal>
       )}
-
-      <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen mt-auto ">
-        <div className="text-3xl font-semibold mt-5">
-          <p>Sale Cars</p>
-          <div className="grid grid-cols-4">
-            <hr className="w-full h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 bg-primary"></hr>
+      <div className="h-screen max-w-screen">
+        <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen mt-auto">
+          <div className="text-3xl font-semibold mt-5">
+            <p>Sale Cars</p>
+            <div className="grid grid-cols-4">
+              <hr className="w-full h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 bg-primary"></hr>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-column justify-between">
-          {sale.map((sale, index) => (
-            <Card
-              key={index}
-              imgAlt="Rental Car"
-              imgSrc={import.meta.env.VITE_SERVER + sale.vehicle_image}
-              className="w-full ml-8"
-            >
-              <div>
-                {sale.brand} {sale.model}
-              </div>
-              <div>{sale.colour}</div>
-              <div>COE expiry: {sale.coe_expiry}</div>
-              <div>Sale Price: ${sale.sale_price}</div>
-              <div>Vehicle Type: {sale.vehicle_type}</div>
-              <div>Listing Date: {sale.listing_date}</div>
-              <button
-                className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey"
-                onClick={() => {
-                  if (userCtx.accessToken) {
-                    setShowModal(true);
-                    setSelectedSale(sale);
-                  } else {
-                    alert("Please sign in or sign up");
-                  }
-                }}
+          <div className="flex flex-row justify-between">
+            {sale.map((sale, index) => (
+              <Card
+                key={index}
+                imgAlt="Rental Car"
+                imgSrc={import.meta.env.VITE_SERVER + sale.vehicle_image}
+                className="w-full ml-8"
               >
-                Book Now
-              </button>
-            </Card>
-          ))}
+                <div>
+                  {sale.brand} {sale.model}
+                </div>
+                <div>{sale.colour}</div>
+                <div>COE expiry: {sale.coe_expiry}</div>
+                <div>Sale Price: ${sale.sale_price}</div>
+                <div>Vehicle Type: {sale.vehicle_type}</div>
+                <div>Listing Date: {sale.listing_date}</div>
+                <button
+                  className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey"
+                  onClick={() => {
+                    if (userCtx.accessToken) {
+                      setShowModal(true);
+                      setSelectedSale(sale);
+                    } else {
+                      alert("Please sign in or sign up");
+                    }
+                  }}
+                >
+                  Book Now
+                </button>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
 

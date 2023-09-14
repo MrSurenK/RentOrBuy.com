@@ -57,53 +57,52 @@ const CmHistory = () => {
           <div className="w-full mx-auto">
             <div className="h-screen max-w-screen">
               <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen  ">
-                <div className="text-3xl font-semibold mt-5">
-                  <div className="h-screen max-w-screen">
+                <div className="h-screen max-w-screen">
+                  <div className="text-3xl font-semibold mt-5">
                     <p>Bookings</p>
-                    <div className="grid grid-cols-4">
-                      <hr className="w-full h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 bg-primary"></hr>
-                    </div>
-                    <div className="flex flex-column justify-between">
-                      {rentals.map((rental, index) => (
-                        <Card
-                          key={index}
-                          imgAlt="Rental Car"
-                          imgSrc={
-                            import.meta.env.VITE_SERVER +
-                            rental.car_id.vehicle_image
-                          }
-                          className="w-full mx-auto"
-                        >
-                          <div>
-                            {rental.car_id.brand} {rental.car_id.model}
-                          </div>
-                          <div>Daily Rate: {rental.transaction_amount}</div>
-                          <div>Start Date: {rental.rental_start_date}</div>
-                          <div>End Date: {rental.rental_end_date}</div>
-                          <div>Rental_Status: {rental.rental_status}</div>
-                        </Card>
-                      ))}
-                    </div>
-                    <div className="flex flex-column justify-between">
-                      {appt.map((apt, index) => (
-                        <Card
-                          key={index}
-                          imgAlt="Sale Car Appt"
-                          imgSrc={
-                            import.meta.env.VITE_SERVER +
-                            apt.car_id.vehicle_image
-                          }
-                          className="w-full mx-auto"
-                        >
-                          <div>
-                            {apt.car_id.brand} {apt.car_id.model}
-                          </div>
-                          <div>Price: ${apt.transaction_amount}</div>
-                          <div>Appt Date: {apt.viewing_date}</div>
-                          <div>Time: {apt.viewing_time}</div>
-                        </Card>
-                      ))}
-                    </div>
+                  </div>
+                  <div className="grid grid-cols-4">
+                    <hr className="w-full h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 bg-primary"></hr>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                    {rentals.map((rental, index) => (
+                      <Card
+                        key={index}
+                        imgAlt="Rental Car"
+                        imgSrc={
+                          import.meta.env.VITE_SERVER +
+                          rental.car_id.vehicle_image
+                        }
+                        className="w-full ml-8"
+                      >
+                        <div>
+                          {rental.car_id.brand} {rental.car_id.model}
+                        </div>
+                        <div>Daily Rate: {rental.transaction_amount}</div>
+                        <div>Start Date: {rental.rental_start_date}</div>
+                        <div>End Date: {rental.rental_end_date}</div>
+                        <div>Rental_Status: {rental.rental_status}</div>
+                      </Card>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                    {appt.map((apt, index) => (
+                      <Card
+                        key={index}
+                        imgAlt="Sale Car Appt"
+                        imgSrc={
+                          import.meta.env.VITE_SERVER + apt.car_id.vehicle_image
+                        }
+                        className="w-full ml-8"
+                      >
+                        <div>
+                          {apt.car_id.brand} {apt.car_id.model}
+                        </div>
+                        <div>Price: ${apt.transaction_amount}</div>
+                        <div>Appt Date: {apt.viewing_date}</div>
+                        <div>Time: {apt.viewing_time}</div>
+                      </Card>
+                    ))}
                   </div>
                 </div>
               </div>
