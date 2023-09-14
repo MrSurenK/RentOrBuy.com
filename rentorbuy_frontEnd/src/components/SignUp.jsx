@@ -71,6 +71,7 @@ const SignUp = () => {
 
       if (response.ok) {
         console.log("Registration Successful!", data);
+        window.location.href = "http://localhost:5173/home";
       } else {
         throw new Error("Network response was not ok" + data.message);
       }
