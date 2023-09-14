@@ -9,6 +9,12 @@ const CmAccount = () => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
 
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleToggleClick = () => {
+    setIsVisible((prevState) => !prevState);
+  };
+
   const [accountDetails, setAccountDetails] = useState([]);
 
   const getAccountDetails = async () => {
@@ -144,8 +150,8 @@ const CmAccount = () => {
     <div className="px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen flex justify-center mt-10">
       <div className="grid place-items-center h-screen mt-20">
         <div className="rounded 3xl p-6 w-[450px] text-white h-[250px] bg-secondary flex flex-col">
-          <div className="flex flex-row justify-between w-fit">
-            <div clssName="flex flex-column">
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-column w-4/12 my-auto">
               <img
                 src={accountDetails.profile_pic}
                 alt="profile pic"
@@ -153,22 +159,22 @@ const CmAccount = () => {
               />
             </div>
 
-            <div className="flex flex-col justify-items-end">
-              <div>{accountDetails.nric}</div>
+            <div className="flex flex-col justify-items-end ml-4">
+              <div>NRIC: {accountDetails.nric}</div>
               <dic>
-                {accountDetails.first_name} {accountDetails.last_name}
+                Name: {accountDetails.first_name} {accountDetails.last_name}
               </dic>
-              <div>{accountDetails.age}</div>
-              <div>{accountDetails.email}</div>
-              <div>{accountDetails.contact_no}</div>
-              <div>{accountDetails.address}</div>
+              <div>Age: {accountDetails.age}</div>
+              <div>Email: {accountDetails.email}</div>
+              <div>Contact No: {accountDetails.contact_no}</div>
+              <div>Address: {accountDetails.address}</div>
             </div>
           </div>
 
-          <div className="flex flex-row justify-center">
+          <div className="flex flex-row justify-center mt-2">
             <div className="mr-4">
               <button
-                className="bg-red-500 rounded-lg w-max py-2.5 px-2.5"
+                className="bg-red-500 rounded-lg w-max py-2.5 px-2.5 hover:bg-rose-600"
                 onClick={deleteAccount}
               >
                 Delete Account
@@ -176,12 +182,16 @@ const CmAccount = () => {
             </div>
 
             <div>
-              <button className="bg-blue-500 rounded-lg w-fit py-2.5 px-3">
+              <button
+                className="bg-blue-500 rounded-lg w-fit py-2.5 px-3 hover:bg-sky-700"
+                onClick={handleToggleClick}
+              >
                 Edit Profile
               </button>
             </div>
           </div>
         </div>
+        {/* {isVisible && ( */}
         <div className="mt-10">Edit Personal Information</div>
 
         <form noValidate="" action="" onSubmit={handleSubmit}>
