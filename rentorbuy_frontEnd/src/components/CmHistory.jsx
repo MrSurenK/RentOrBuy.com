@@ -50,6 +50,36 @@ const CmHistory = () => {
     getSaleHistory();
   }, [userCtx.isLoggedIn]);
 
+  // Format date and time from API
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = String(date.getFullYear()).slice(-2);
+    return `${day}/${month}/${year}`;
+  };
+
+  const formatTime = (timeString) => {
+    if (!timeString) return "";
+    const date = new Date(`1970-01-01T${timeString}Z`);
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
+  const formatStatus = (status) => {
+    if (status === "NC") {
+      return "Not collected";
+    } else if (status === "CO") {
+      return "Collected";
+    } else if (status === "RE") {
+      return "Returned";
+    } else if (status === "OD") {
+      return "Overdue!";
+    }
+  };
+
   return (
     <>
       <div className="mt-clearNav  bg-neutralSilver ">
@@ -79,9 +109,15 @@ const CmHistory = () => {
                           {rental.car_id.brand} {rental.car_id.model}
                         </div>
                         <div>Daily Rate: {rental.transaction_amount}</div>
-                        <div>Start Date: {rental.rental_start_date}</div>
-                        <div>End Date: {rental.rental_end_date}</div>
-                        <div>Rental_Status: {rental.rental_status}</div>
+                        <div>
+                          Start Date: {formatDate(rental.rental_start_date)}
+                        </div>
+                        <div>
+                          End Date: {formatDate(rental.rental_end_date)}
+                        </div>
+                        <div>
+                          Rental_Status: {formatStatus(rental.rental_status)}
+                        </div>
                       </Card>
                     ))}
                   </div>
@@ -99,8 +135,8 @@ const CmHistory = () => {
                           {apt.car_id.brand} {apt.car_id.model}
                         </div>
                         <div>Price: ${apt.transaction_amount}</div>
-                        <div>Appt Date: {apt.viewing_date}</div>
-                        <div>Time: {apt.viewing_time}</div>
+                        <div>Appt Date: {formatDate(apt.viewing_date)}</div>
+                        <div>Time: {formatTime(apt.viewing_time)}</div>
                       </Card>
                     ))}
                   </div>
