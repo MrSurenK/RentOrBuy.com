@@ -9,8 +9,6 @@ import { Card } from "flowbite-react";
 import Modal from "./Modal";
 import UserContext from "../context/user";
 import Datepicker from "react-tailwindcss-datepicker";
-import { get } from "react-scroll/modules/mixins/scroller";
-import TimePicker from "react-time-picker";
 
 const Home = () => {
   const fetchData = useFetch();
@@ -138,7 +136,7 @@ const Home = () => {
         </div>
 
         <div className="h-80 max-w-screen bg-neutralSilver flex flex-col">
-          <div className="flex flex-row justify-center items-center h-3/6 text-3xl">
+          <div className="flex flex-row justify-center items-center h-3/6 font-medium text-3xl">
             Our Brands
           </div>
           <div className="flex flex-row justify-around w-full">
