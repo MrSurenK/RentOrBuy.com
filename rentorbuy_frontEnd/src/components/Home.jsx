@@ -27,7 +27,7 @@ const Home = () => {
   });
 
   const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue);
+    // console.log("newValue:", newValue);
     setValue(newValue);
   };
 
@@ -35,7 +35,7 @@ const Home = () => {
 
   const handleTimeChange = (newTime) => {
     setTime(newTime.target.value);
-    console.log(time);
+    // console.log(time);
   };
 
   // GET Rentals API
@@ -44,7 +44,7 @@ const Home = () => {
     const res = await fetchData("/dealer/cars/rentals", "GET", undefined);
     if (res.ok) {
       setRentals(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
@@ -63,7 +63,7 @@ const Home = () => {
     const res = await fetchData("/dealer/cars/forsale", "GET", undefined);
     if (res.ok) {
       setSale(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
@@ -154,7 +154,7 @@ const Home = () => {
               <hr className="w-full h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 bg-primary"></hr>
             </div>
           </div>
-          <div className="flex flex-row justify-between">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
             {rentals.map((rental, index) => (
               <Card
                 key={index}
@@ -285,7 +285,7 @@ const Home = () => {
               <hr className="w-full h-1 mx-auto my-4 bg-gray-100 border-0 rounded md:my-10 bg-primary"></hr>
             </div>
           </div>
-          <div className="flex flex-row justify-between">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
             {sale.map((sale, index) => (
               <Card
                 key={index}

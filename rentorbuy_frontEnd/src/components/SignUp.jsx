@@ -70,7 +70,7 @@ const SignUp = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Registration Successful!", data);
+        alert("Registration Successful!");
         window.location.href = "http://localhost:5173/home";
       } else {
         throw new Error("Network response was not ok" + data.message);
@@ -82,7 +82,7 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="mt-clearNav bg-neutralSilver ">
+      <div className="mt-clearNav ">
         <div className="mt-30 px-4 lg:px-14 max-w-screen-2xl mx-auto min-h-screen h-screen  ">
           <section className="p-6 dark:bg-gray-800 dark:text-gray-50">
             <form

@@ -33,12 +33,12 @@ const CmAccount = () => {
   };
 
   useEffect(() => {
-    console.log(userCtx);
+    // console.log(userCtx);
     getAccountDetails();
   }, [userCtx.isLoggedIn]);
 
   useEffect(() => {
-    console.log("accountDetails:", accountDetails);
+    // console.log("accountDetails:", accountDetails);
   }, [accountDetails]);
 
   // Delete account by changing activity from active to inactive. ( Do not let inactive log in )
@@ -72,7 +72,7 @@ const CmAccount = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    console.log(`Field changed: ${name}, New value: ${value}`);
+    // console.log(`Field changed: ${name}, New value: ${value}`);
 
     switch (name) {
       case "email":
@@ -118,7 +118,7 @@ const CmAccount = () => {
       formData.append("profile_pic", file);
     }
     // Cant use customer fetch hook because the head has to accept formData not application/JSON
-    console.log(userCtx.accessToken);
+    // console.log(userCtx.accessToken);
 
     try {
       const response = await fetch(
@@ -135,7 +135,7 @@ const CmAccount = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Update successful!", data);
+        // console.log("Update successful!", data);
         getAccountDetails();
       } else {
         throw new Error("Network response was not ok" + data.message);

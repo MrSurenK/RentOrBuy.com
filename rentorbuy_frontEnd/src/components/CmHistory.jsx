@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import useFetch from "../hooks/useFetch";
 import { Card } from "flowbite-react";
-import Modal from "./Modal";
 import UserContext from "../context/user";
 
 const CmHistory = () => {
@@ -19,7 +18,7 @@ const CmHistory = () => {
     );
     if (res.ok) {
       setRentals(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
@@ -37,7 +36,7 @@ const CmHistory = () => {
 
     if (res.ok) {
       setAppt(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
