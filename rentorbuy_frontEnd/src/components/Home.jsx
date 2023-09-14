@@ -118,7 +118,7 @@ const Home = () => {
       setShowModal(false); //Close the modal
       getRentals(); //Refresh listing page
     } else {
-      alert("Booking failed: " + res.data);
+      alert("Booking failed: Car is unavailable " + res.data);
     }
   };
 
