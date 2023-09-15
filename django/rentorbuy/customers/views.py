@@ -253,6 +253,9 @@ class CreateRental(APIView):
             return Response({"error": "Both start_date and end_date must be provided"}, status=status.HTTP_400_BAD_REQUEST)
 
         # Check for exisiting bookings that overlap with the requested data range
+        # Check for rentals that overlap with the proposed start date. (Rental start date <= startdate and rental end date >= start date)
+        # Check when rental period overlaps with proposed end date. (Rental start date <= end date and rental end date >= end date)
+        # Check when rental are entirely encompassed within the proposed rental period. (Rental start date >= start date and rental end date <= end date)
         overlapping_bookings = Rental.objects.filter(
             Q(car_id=car_id) &  # Include the customer ID here
             (
