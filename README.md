@@ -1,8 +1,7 @@
 # RentOrBuy.com
 
 Online car dealer rental and sales full stack project.
-![Dashboard](rentorbuy_frontEnd/src
-/screenshots/Homepage.png)
+![Dashboard](rentorbuy_frontEnd/src/screenshots/Homepage.png)
 
 ## Table of Contents:
 1. Getting Started
@@ -26,10 +25,14 @@ Online car dealer rental and sales full stack project.
   
 2. Login Credentials 
    - Create own account in Sign Up page or in Django admin
+     ![Sign Up](rentorbuy_frontEnd/src/screenshots/SignUp.png)
    - Password should be more than 8 charcater and not be related to the user first name or last name
 
+3. Login at the navigation bar 
    >Login Page
-   ![Login Page](front-end/Clubber-CRM/screenshots/LoginPage.png)
+   ![Login Page](rentorbuy_frontEnd/src/screenshots/Login.png)
+
+
 
 
 ## API endpoints (11 endpoints consumed)
@@ -107,7 +110,9 @@ Online car dealer rental and sales full stack project.
 - CRUD functionality for customer accounts
 - If customer deleted an account and customer creates an account again all the customer previous data retained
 - Rental and Sales appointment booking systems
-- Rentals cannot overlap for a select car 
+![Rental](rentorbuy_frontEnd/src/screenshots/Rentals.png)
+- Rentals cannot overlap for a select car
+![Booking](rentorbuy_frontEnd/src/screenshots/RentalBooking.png)
 - Admin portal for dealer to add post to site automatically and update rental status 
 
 
