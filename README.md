@@ -36,14 +36,15 @@ Online car dealer rental and sales full stack project.
 
 
 ## API endpoints (11 endpoints consumed)
-  - Customer registration | Put
-   ```
-   /customer/register/
-   ```
-   - Customer delete account | Delete
-    ```
+
+   - Customer registration | PUT
+     ```
+     /customer/register/
+     ```
+   - Customer delete account | DELETE
+     ```
      /customer/delete
-    ```
+     ```
   - Customer info | GET
     ```
     /customer/details
