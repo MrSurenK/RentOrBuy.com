@@ -1,7 +1,8 @@
 # RentOrBuy.com
 
 Online car dealer rental and sales full stack project.
-![Dashboard](front-end/Clubber-CRM/screenshots/Dashboard.png)
+![Dashboard](rentorbuy_frontEnd/src
+/screenshots/Homepage.png)
 
 ## Table of Contents:
 1. Getting Started
@@ -31,8 +32,52 @@ Online car dealer rental and sales full stack project.
    ![Login Page](front-end/Clubber-CRM/screenshots/LoginPage.png)
 
 
-## API endpoints
-  - 
+## API endpoints (11 endpoints consumed)
+  - Customer registration | Put
+   ```
+   /customer/register/
+   ```
+   - Customer delete account | Delete
+    ```
+     /customer/delete
+    ```
+  - Customer info | GET
+    ```
+    /customer/details
+    ```
+  - Customer edit info | PATCH
+    ```
+    /customer/editInfo
+    ```
+  - Customer rental transaction | GET
+    ```
+    /customer/cars/rental
+    ```
+  - Customer rental reciept | POST
+    ```
+    /customer/rental
+    ```
+ - Customer sale transaction | GET
+   ```
+   /customer/cars/sales 
+   ```
+ - Customer sale receipt | POST
+   ```
+   /customer/carSale 
+   ```
+ - JWT Authentication
+   ```
+   /login/token
+   ```
+ - Dealer get all cars for sales | GET
+   ```
+   /dealer/cars/forsale
+   ```
+- Dealer get all cars for rent | GET
+  ```
+  /dealer/car/rentals
+  ```
+   
 
 ## Technologies Used:
 **Front-End**
@@ -60,6 +105,7 @@ Online car dealer rental and sales full stack project.
 
 ## Key Features:
 - CRUD functionality for customer accounts
+- If customer deleted an account and customer creates an account again all the customer previous data retained
 - Rental and Sales appointment booking systems
 - Rentals cannot overlap for a select car 
 - Admin portal for dealer to add post to site automatically and update rental status 
