@@ -57,10 +57,10 @@ const CmHistory = () => {
 
     if (res.ok) {
       setAppt(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } else {
       alert(JSON.stringify(res.data));
-      console.log(res.data);
+      // console.log(res.data);
     }
   };
 
@@ -71,18 +71,33 @@ const CmHistory = () => {
   };
 
   // Body for editSale api
-  // const changeSaleApt = {
-  //   cancel_apt: cancel;
-  //   viewing_date: value.date
-  // };
+  let changeSaleApt = {};
+
+  if (cancel === true) {
+    changeSaleApt.cancel_apt = cancel;
+  } else if (value.startDate && time) {
+    changeSaleApt.viewing_date = value.startDate;
+    changeSaleApt.viewing_time = time;
+  }
 
   // Edit appt date and time / cancel appt API
-  // const editSaleApt = async () => {
-  //   const res = await fetchData(
-  //     "/customer/car/sale/" + appt.sale_id + "/",
-  //     "PATCH"
-  //   );
-  // };
+  const editSaleApt = async () => {
+    const res = await fetchData(
+      "/customer/cars/sale/" + saleApt.sale_id + "/",
+      "PATCH",
+      changeSaleApt,
+      userCtx.accessToken
+    );
+    if (res.ok) {
+      console.log(saleApt.sale_id);
+      setShowModal(false);
+      getSaleHistory();
+      console.log(res.data);
+    } else {
+      console.log(saleApt.sale_id);
+      alert("Booking failed" + res.data);
+    }
+  };
 
   // Only return data if user is logged in
   useEffect(() => {
@@ -189,7 +204,7 @@ const CmHistory = () => {
                           <button
                             onClick={(e) => {
                               setShowModal(true);
-                              setSaleApt(appt);
+                              setSaleApt(apt);
                               console.log(saleApt);
                             }}
                             className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey"
@@ -231,7 +246,12 @@ const CmHistory = () => {
           />
         </div>
         <div>
-          <button className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey mt-5">
+          <button
+            onClick={() => {
+              editSaleApt();
+            }}
+            className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey mt-5"
+          >
             OK
           </button>
         </div>
