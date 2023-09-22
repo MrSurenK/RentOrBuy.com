@@ -58,6 +58,7 @@ const CmHistory = () => {
     if (res.ok) {
       setAppt(res.data);
       // console.log(res.data);
+      console.log(appt);
     } else {
       alert(JSON.stringify(res.data));
       // console.log(res.data);
@@ -65,10 +66,12 @@ const CmHistory = () => {
   };
 
   // Button function to cancel appointment
-  const handleCancel = (e) => {
+  const handleCancel = async (e) => {
     setCancel(true);
-    console.log(cancel);
-    editSaleApt();
+    setSaleApt((prevState) => ({
+      ...prevState,
+      cancel_apt: true,
+    }));
   };
 
   // Body for editSale api
@@ -177,44 +180,56 @@ const CmHistory = () => {
                       </Card>
                     ))}
                   </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                    {appt.map((apt, index) => (
-                      <Card
-                        key={index}
-                        imgAlt="Sale Car Appt"
-                        imgSrc={
-                          import.meta.env.VITE_SERVER + apt.car_id.vehicle_image
-                        }
-                        className="w-full ml-8"
-                      >
-                        <div>
-                          {apt.car_id.brand} {apt.car_id.model}
-                        </div>
-                        <div>Price: ${apt.transaction_amount}</div>
-                        <div>Appt Date: {formatDate(apt.viewing_date)}</div>
-                        <div>Time: {formatTime(apt.viewing_time)}</div>
-                        <div>
-                          <button
-                            onClick={handleCancel}
-                            className="bg-red-700 text-white py-2 px-4 transition-all duration-300 rounded hover:bg-red-400"
+                    {appt.map((apt, index) => {
+                      console.log(
+                        "Rendering apt with sale_id:",
+                        apt.sale_id,
+                        "cancel_apt:",
+                        apt.cancel_apt
+                      );
+                      return (
+                        !apt.cancel_apt && (
+                          <Card
+                            key={index}
+                            imgAlt="Sale Car Appt"
+                            imgSrc={
+                              import.meta.env.VITE_SERVER +
+                              apt.car_id.vehicle_image
+                            }
+                            className="w-full ml-8"
                           >
-                            Cancel
-                          </button>
-                        </div>
-                        <div>
-                          <button
-                            onClick={(e) => {
-                              setShowModal(true);
-                              setSaleApt(apt);
-                              console.log(saleApt);
-                            }}
-                            className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey"
-                          >
-                            Reschedule
-                          </button>
-                        </div>
-                      </Card>
-                    ))}
+                            <div>
+                              {apt.car_id.brand} {apt.car_id.model}
+                            </div>
+                            <div>Price: ${apt.transaction_amount}</div>
+                            <div>Appt Date: {formatDate(apt.viewing_date)}</div>
+                            <div>Time: {formatTime(apt.viewing_time)}</div>
+                            <div>
+                              <button
+                                onClick={handleCancel}
+                                className="bg-red-700 text-white py-2 px-4 transition-all duration-300 rounded hover:bg-red-400"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                            <div>
+                              <button
+                                onClick={(e) => {
+                                  setShowModal(true);
+                                  setSaleApt(apt);
+                                  console.log(saleApt);
+                                }}
+                                className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey"
+                              >
+                                Reschedule
+                              </button>
+                            </div>
+                          </Card>
+                        )
+                      );
+                    })}
                   </div>
                 </div>
               </div>
