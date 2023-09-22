@@ -148,7 +148,7 @@ const CmHistory = () => {
                         <div>
                           {rental.car_id.brand} {rental.car_id.model}
                         </div>
-                        <div>Daily Rate: {rental.transaction_amount}</div>
+                        <div>Daily Rate: $ {rental.transaction_amount}</div>
                         <div>
                           Start Date: {formatDate(rental.rental_start_date)}
                         </div>
@@ -156,7 +156,7 @@ const CmHistory = () => {
                           End Date: {formatDate(rental.rental_end_date)}
                         </div>
                         <div>
-                          Rental_Status: {formatStatus(rental.rental_status)}
+                          Rental Status: {formatStatus(rental.rental_status)}
                         </div>
                       </Card>
                     ))}
@@ -216,7 +216,25 @@ const CmHistory = () => {
             onChange={handleValueChange}
           />
         </div>
-        <div></div>
+        <div className="mt-5">
+          <label> Change Time: </label>
+        </div>
+        <div>
+          <input
+            type="time"
+            id="appt"
+            name="appt"
+            min="09:00"
+            max="18:00"
+            required
+            onChange={handleTimeChange}
+          />
+        </div>
+        <div>
+          <button className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey mt-5">
+            OK
+          </button>
+        </div>
       </Modal>
     </>
   );
