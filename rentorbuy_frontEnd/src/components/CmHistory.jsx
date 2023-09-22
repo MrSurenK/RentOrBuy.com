@@ -68,6 +68,7 @@ const CmHistory = () => {
   const handleCancel = (e) => {
     setCancel(true);
     console.log(cancel);
+    editSaleApt();
   };
 
   // Body for editSale api
