@@ -2,12 +2,33 @@ import React, { useState, useEffect, useContext } from "react";
 import useFetch from "../hooks/useFetch";
 import { Card } from "flowbite-react";
 import UserContext from "../context/user";
+import Datepicker from "react-tailwindcss-datepicker";
+import Modal from "./Modal";
 
 const CmHistory = () => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
   const [rentals, setRentals] = useState([]);
   const [appt, setAppt] = useState([]);
+  const [cancel, setCancel] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [saleApt, setSaleApt] = useState(null);
+  const [time, setTime] = useState(null);
+  // Custom date picker configuration
+  const [value, setValue] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
+  const handleTimeChange = (newTime) => {
+    setTime(newTime.target.value);
+    // console.log(time);
+  };
+
+  const handleValueChange = (newValue) => {
+    console.log("newValue", newValue);
+    setValue(newValue);
+  };
 
   const getRentalHistory = async () => {
     const res = await fetchData(
@@ -36,12 +57,32 @@ const CmHistory = () => {
 
     if (res.ok) {
       setAppt(res.data);
-      // console.log(res.data);
+      console.log(res.data);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
     }
   };
+
+  // Button function to cancel appointment
+  const handleCancel = (e) => {
+    setCancel(true);
+    console.log(cancel);
+  };
+
+  // Body for editSale api
+  // const changeSaleApt = {
+  //   cancel_apt: cancel;
+  //   viewing_date: value.date
+  // };
+
+  // Edit appt date and time / cancel appt API
+  // const editSaleApt = async () => {
+  //   const res = await fetchData(
+  //     "/customer/car/sale/" + appt.sale_id + "/",
+  //     "PATCH"
+  //   );
+  // };
 
   // Only return data if user is logged in
   useEffect(() => {
@@ -136,6 +177,26 @@ const CmHistory = () => {
                         <div>Price: ${apt.transaction_amount}</div>
                         <div>Appt Date: {formatDate(apt.viewing_date)}</div>
                         <div>Time: {formatTime(apt.viewing_time)}</div>
+                        <div>
+                          <button
+                            onClick={handleCancel}
+                            className="bg-red-700 text-white py-2 px-4 transition-all duration-300 rounded hover:bg-red-400"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                        <div>
+                          <button
+                            onClick={(e) => {
+                              setShowModal(true);
+                              setSaleApt(appt);
+                              console.log(saleApt);
+                            }}
+                            className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey"
+                          >
+                            Reschedule
+                          </button>
+                        </div>
                       </Card>
                     ))}
                   </div>
@@ -145,6 +206,18 @@ const CmHistory = () => {
           </div>
         </div>
       </div>
+      <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
+        <div>
+          <label>Change Date:</label>
+          <Datepicker
+            useRange={false}
+            asSingle={true}
+            value={value}
+            onChange={handleValueChange}
+          />
+        </div>
+        <div></div>
+      </Modal>
     </>
   );
 };
