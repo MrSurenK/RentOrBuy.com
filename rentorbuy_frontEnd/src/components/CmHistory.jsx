@@ -2,12 +2,33 @@ import React, { useState, useEffect, useContext } from "react";
 import useFetch from "../hooks/useFetch";
 import { Card } from "flowbite-react";
 import UserContext from "../context/user";
+import Datepicker from "react-tailwindcss-datepicker";
+import Modal from "./Modal";
 
 const CmHistory = () => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
   const [rentals, setRentals] = useState([]);
   const [appt, setAppt] = useState([]);
+  const [cancel, setCancel] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [saleApt, setSaleApt] = useState(null);
+  const [time, setTime] = useState(null);
+  // Custom date picker configuration
+  const [value, setValue] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
+  const handleTimeChange = (newTime) => {
+    setTime(newTime.target.value);
+    // console.log(time);
+  };
+
+  const handleValueChange = (newValue) => {
+    console.log("newValue", newValue);
+    setValue(newValue);
+  };
 
   const getRentalHistory = async () => {
     const res = await fetchData(
@@ -36,10 +57,44 @@ const CmHistory = () => {
 
     if (res.ok) {
       setAppt(res.data);
-      console.log(res.data);
     } else {
       alert(JSON.stringify(res.data));
+      // console.log(res.data);
+    }
+  };
+
+  // Button function to cancel appointment
+  const cancelSaleApt = (apt) => {
+    setSaleApt(apt);
+    setCancel(true);
+  };
+
+  // Body for editSale api
+  let changeSaleApt = {};
+
+  if (cancel === true) {
+    changeSaleApt.cancel_apt = cancel;
+  } else if (value.startDate && time) {
+    changeSaleApt.viewing_date = value.startDate;
+    changeSaleApt.viewing_time = time;
+  }
+
+  // Edit appt date and time / cancel appt API
+  const editSaleApt = async () => {
+    const res = await fetchData(
+      "/customer/cars/sale/" + saleApt.sale_id + "/",
+      "PATCH",
+      changeSaleApt,
+      userCtx.accessToken
+    );
+    if (res.ok) {
+      console.log(saleApt.sale_id);
+      setShowModal(false);
+      getSaleHistory();
       console.log(res.data);
+    } else {
+      console.log(saleApt.sale_id);
+      alert("Booking failed" + res.data);
     }
   };
 
@@ -48,6 +103,16 @@ const CmHistory = () => {
     getRentalHistory();
     getSaleHistory();
   }, [userCtx.isLoggedIn]);
+
+  // useEffect(() => {
+  //   getSaleHistory();
+  // }, [userCtx.isLoggedIn, cancel]);
+
+  useEffect(() => {
+    if (saleApt && cancel) {
+      editSaleApt();
+    }
+  }, [saleApt, cancel]);
 
   // Format date and time from API
   const formatDate = (dateString) => {
@@ -107,7 +172,7 @@ const CmHistory = () => {
                         <div>
                           {rental.car_id.brand} {rental.car_id.model}
                         </div>
-                        <div>Daily Rate: {rental.transaction_amount}</div>
+                        <div>Daily Rate: $ {rental.transaction_amount}</div>
                         <div>
                           Start Date: {formatDate(rental.rental_start_date)}
                         </div>
@@ -115,29 +180,61 @@ const CmHistory = () => {
                           End Date: {formatDate(rental.rental_end_date)}
                         </div>
                         <div>
-                          Rental_Status: {formatStatus(rental.rental_status)}
+                          Rental Status: {formatStatus(rental.rental_status)}
                         </div>
                       </Card>
                     ))}
                   </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                    {appt.map((apt, index) => (
-                      <Card
-                        key={index}
-                        imgAlt="Sale Car Appt"
-                        imgSrc={
-                          import.meta.env.VITE_SERVER + apt.car_id.vehicle_image
-                        }
-                        className="w-full ml-8"
-                      >
-                        <div>
-                          {apt.car_id.brand} {apt.car_id.model}
-                        </div>
-                        <div>Price: ${apt.transaction_amount}</div>
-                        <div>Appt Date: {formatDate(apt.viewing_date)}</div>
-                        <div>Time: {formatTime(apt.viewing_time)}</div>
-                      </Card>
-                    ))}
+                    {appt.map((apt, index) => {
+                      // console.log(
+                      //   "Rendering apt with sale_id:",
+                      //   apt.sale_id,
+                      //   "cancel_apt:",
+                      //   apt.cancel_apt
+                      // );
+                      return (
+                        !apt.cancel_apt && (
+                          <Card
+                            key={index}
+                            imgAlt="Sale Car Appt"
+                            imgSrc={
+                              import.meta.env.VITE_SERVER +
+                              apt.car_id.vehicle_image
+                            }
+                            className="w-full ml-8"
+                          >
+                            <div>
+                              {apt.car_id.brand} {apt.car_id.model}
+                            </div>
+                            <div>Price: ${apt.transaction_amount}</div>
+                            <div>Appt Date: {formatDate(apt.viewing_date)}</div>
+                            <div>Time: {formatTime(apt.viewing_time)}</div>
+                            <div>
+                              <button
+                                onClick={() => cancelSaleApt(apt)}
+                                className="bg-red-700 text-white py-2 px-4 transition-all duration-300 rounded hover:bg-red-400"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                            <div>
+                              <button
+                                onClick={(e) => {
+                                  setShowModal(true);
+                                  setSaleApt(apt);
+                                  console.log(saleApt);
+                                }}
+                                className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey"
+                              >
+                                Reschedule
+                              </button>
+                            </div>
+                          </Card>
+                        )
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -145,6 +242,41 @@ const CmHistory = () => {
           </div>
         </div>
       </div>
+      <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
+        <div>
+          <label>Change Date:</label>
+          <Datepicker
+            useRange={false}
+            asSingle={true}
+            value={value}
+            onChange={handleValueChange}
+          />
+        </div>
+        <div className="mt-5">
+          <label> Change Time: </label>
+        </div>
+        <div>
+          <input
+            type="time"
+            id="appt"
+            name="appt"
+            min="09:00"
+            max="18:00"
+            required
+            onChange={handleTimeChange}
+          />
+        </div>
+        <div>
+          <button
+            onClick={() => {
+              editSaleApt();
+            }}
+            className="bg-primary text-white py-2 px-4 transition-all duration-300 rounded hover:bg-neutralGrey mt-5"
+          >
+            OK
+          </button>
+        </div>
+      </Modal>
     </>
   );
 };
