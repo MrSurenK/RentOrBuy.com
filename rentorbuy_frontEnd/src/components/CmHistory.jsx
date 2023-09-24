@@ -66,12 +66,9 @@ const CmHistory = () => {
   };
 
   // Button function to cancel appointment
-  const handleCancel = async (e) => {
+  const cancelSaleApt = (apt) => {
+    setSaleApt(apt);
     setCancel(true);
-    setSaleApt((prevState) => ({
-      ...prevState,
-      cancel_apt: true,
-    }));
   };
 
   // Body for editSale api
@@ -108,6 +105,16 @@ const CmHistory = () => {
     getRentalHistory();
     getSaleHistory();
   }, [userCtx.isLoggedIn]);
+
+  // useEffect(() => {
+  //   getSaleHistory();
+  // }, [userCtx.isLoggedIn, cancel]);
+
+  useEffect(() => {
+    if (saleApt && cancel) {
+      editSaleApt();
+    }
+  }, [saleApt, cancel]);
 
   // Format date and time from API
   const formatDate = (dateString) => {
@@ -183,12 +190,12 @@ const CmHistory = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
                     {appt.map((apt, index) => {
-                      console.log(
-                        "Rendering apt with sale_id:",
-                        apt.sale_id,
-                        "cancel_apt:",
-                        apt.cancel_apt
-                      );
+                      // console.log(
+                      //   "Rendering apt with sale_id:",
+                      //   apt.sale_id,
+                      //   "cancel_apt:",
+                      //   apt.cancel_apt
+                      // );
                       return (
                         !apt.cancel_apt && (
                           <Card
@@ -208,7 +215,7 @@ const CmHistory = () => {
                             <div>Time: {formatTime(apt.viewing_time)}</div>
                             <div>
                               <button
-                                onClick={handleCancel}
+                                onClick={() => cancelSaleApt(apt)}
                                 className="bg-red-700 text-white py-2 px-4 transition-all duration-300 rounded hover:bg-red-400"
                               >
                                 Cancel
