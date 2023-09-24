@@ -63,13 +63,15 @@ const CmHistory = () => {
     }
   };
 
-  // Button function to cancel appointment
+  // Button function to cancel appointment (apt get the specific sale_id)
+  // Change the cancel state to true and feed to the API.
   const cancelSaleApt = (apt) => {
     setSaleApt(apt);
     setCancel(true);
   };
 
   // Body for editSale api
+  // As per in backend, controls in place to make sure only cancel appt is sent or appt date and timings are changed but not both appt date and time abd cancel.
   let changeSaleApt = {};
 
   if (cancel === true) {
@@ -108,6 +110,7 @@ const CmHistory = () => {
   //   getSaleHistory();
   // }, [userCtx.isLoggedIn, cancel]);
 
+  // When cancel sale set to true and re-render
   useEffect(() => {
     if (saleApt && cancel) {
       editSaleApt();
