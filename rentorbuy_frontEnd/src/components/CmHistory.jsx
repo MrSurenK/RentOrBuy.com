@@ -57,8 +57,6 @@ const CmHistory = () => {
 
     if (res.ok) {
       setAppt(res.data);
-      // console.log(res.data);
-      console.log(appt);
     } else {
       alert(JSON.stringify(res.data));
       // console.log(res.data);
