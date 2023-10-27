@@ -9,6 +9,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from django.db.models import Q
 
 
+# Logic
 class JwtDetails(APIView):
     permission_classes = (IsAuthenticated,)
 
