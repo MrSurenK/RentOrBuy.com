@@ -11,55 +11,25 @@ import uuid
 
 # Create Customer Account and Table
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, age, contact_no, address, nric, password, profile_pic=None, valid_license=True,is_active=True, is_staff=False, is_admin=False, is_superuser=False):
+    def _create_user(self, email, password, **extra_fields):
         if not email:
-            raise ValueError('The Email Field must be set')
-        if age is None or not first_name or not last_name or not contact_no or not address or not nric:  # All these fields are mandatory and age should not be 0
-            raise ValueError('All fields must be set')
-
+            raise ValueError("You have to provide a valid email")
         email = self.normalize_email(email)
-        user = self.model(
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            age=age,
-            contact_no=contact_no,
-            address=address,
-            nric=nric,
-            profile_pic=profile_pic,
-            valid_license=valid_license,
-            is_active=is_active,
-            is_staff=is_staff,
-            is_admin=is_admin,
-            is_superuser=is_superuser,
-        )
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, first_name, last_name, age, contact_no, address, nric, password,profile_pic, valid_license, is_active, is_staff,is_admin, is_superuser):
-        user = self.create_user(
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            age=age,
-            contact_no=contact_no,
-            address=address,
-            nric=nric,
-            password=password,
-            profile_pic=profile_pic,
-            valid_license=valid_license,
-            is_active=is_active,
-            is_staff=is_staff,
-            is_admin=is_admin,
-            is_superuser=is_superuser,
-        )
+    def create_user(self, email=None, password= None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(email, password, **extra_fields)
 
-        user.is_staff = True
-        user.is_superuser = True
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+    def create_superuser(self, email= None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self._create_user(email, password, **extra_fields)
+
 
 
 nric_validator = RegexValidator(
@@ -101,7 +71,7 @@ class CustomerAccount(AbstractBaseUser):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ["first_name", "last_name", "age", "contact_no", "address", "nric", "password"]
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return f'{self.nric}, {self.email}, {self.first_name}'
