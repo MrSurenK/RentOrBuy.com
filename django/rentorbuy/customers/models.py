@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from dealer.models import Car
 from django.core.validators import RegexValidator
@@ -11,55 +11,51 @@ import uuid
 
 # Create Customer Account and Table
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, age, contact_no, address, nric, password, profile_pic=None, valid_license=True,is_active=True, is_staff=False, is_admin=False, is_superuser=False):
-        if not email:
-            raise ValueError('The Email Field must be set')
-        if age is None or not first_name or not last_name or not contact_no or not address or not nric:  # All these fields are mandatory and age should not be 0
-            raise ValueError('All fields must be set')
+   def create_user(self, email, first_name, last_name, age, contact_no, address, nric, password, profile_pic=None, valid_license=True,is_active=True, is_staff=False, is_admin=False, is_superuser=False):
+       if not email:
+           raise ValueError('The Email Field must be set')
+       if age is None or not first_name or not last_name or not contact_no or not address or not nric:  # All these fields are mandatory and age should not be 0
+           raise ValueError('All fields must be set')
 
-        email = self.normalize_email(email)
-        user = self.model(
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            age=age,
-            contact_no=contact_no,
-            address=address,
-            nric=nric,
-            profile_pic=profile_pic,
-            valid_license=valid_license,
-            is_active=is_active,
-            is_staff=is_staff,
-            is_admin=is_admin,
-            is_superuser=is_superuser,
-        )
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
 
-    def create_superuser(self, email, first_name, last_name, age, contact_no, address, nric, password,profile_pic, valid_license, is_active, is_staff,is_admin, is_superuser):
-        user = self.create_user(
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            age=age,
-            contact_no=contact_no,
-            address=address,
-            nric=nric,
-            password=password,
-            profile_pic=profile_pic,
-            valid_license=valid_license,
-            is_active=is_active,
-            is_staff=is_staff,
-            is_admin=is_admin,
-            is_superuser=is_superuser,
-        )
+       email = self.normalize_email(email)
+       user = self.model(
+           email=email,
+           first_name=first_name,
+           last_name=last_name,
+           age=age,
+           contact_no=contact_no,
+           address=address,
+           nric=nric,
+           profile_pic=profile_pic,
+           valid_license=valid_license,
+           is_active=is_active,
+           is_staff=is_staff,
+           is_admin=is_admin,
+           is_superuser=is_superuser,
+       )
+       user.set_password(password)
+       user.save(using=self._db)
+       return user
 
-        user.is_staff = True
-        user.is_superuser = True
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+   def create_superuser(self, email, first_name, last_name, age, contact_no, address, nric):
+       user = self.create_user(
+           email=email,
+           first_name=first_name,
+           last_name=last_name,
+           age=age,
+           contact_no=contact_no,
+           address=address,
+           nric=nric,
+       )
+
+       user.set_password(password)
+       user.is_staff = True
+       user.is_superuser = True
+       user.is_admin = True
+       user.save(using=self._db)
+       return user
+
 
 
 nric_validator = RegexValidator(
@@ -81,7 +77,7 @@ def upload_to(instance, filename):
     return 'profile_pics/{filename}'.format(filename=filename)
 
 
-class CustomerAccount(AbstractBaseUser):
+class CustomerAccount(AbstractBaseUser, PermissionsMixin):
     nric = models.CharField(max_length=9, unique=True, primary_key=True, validators=[nric_validator])
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
