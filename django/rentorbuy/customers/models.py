@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from dealer.models import Car
 from django.core.validators import RegexValidator
@@ -11,24 +11,50 @@ import uuid
 
 # Create Customer Account and Table
 class CustomUserManager(BaseUserManager):
-    def _create_user(self, email, password, **extra_fields):
-        if not email:
-            raise ValueError("You have to provide a valid email")
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
+   def create_user(self, email, first_name, last_name, age, contact_no, address, nric, password, profile_pic=None, valid_license=True,is_active=True, is_staff=False, is_admin=False, is_superuser=False):
+       if not email:
+           raise ValueError('The Email Field must be set')
+       if age is None or not first_name or not last_name or not contact_no or not address or not nric:  # All these fields are mandatory and age should not be 0
+           raise ValueError('All fields must be set')
 
-    def create_user(self, email=None, password= None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-        return self._create_user(email, password, **extra_fields)
 
-    def create_superuser(self, email= None, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        return self._create_user(email, password, **extra_fields)
+       email = self.normalize_email(email)
+       user = self.model(
+           email=email,
+           first_name=first_name,
+           last_name=last_name,
+           age=age,
+           contact_no=contact_no,
+           address=address,
+           nric=nric,
+           profile_pic=profile_pic,
+           valid_license=valid_license,
+           is_active=is_active,
+           is_staff=is_staff,
+           is_admin=is_admin,
+           is_superuser=is_superuser,
+       )
+       user.set_password(password)
+       user.save(using=self._db)
+       return user
+
+   def create_superuser(self, email, first_name, last_name, age, contact_no, address, nric):
+       user = self.create_user(
+           email=email,
+           first_name=first_name,
+           last_name=last_name,
+           age=age,
+           contact_no=contact_no,
+           address=address,
+           nric=nric,
+       )
+
+       user.set_password(password)
+       user.is_staff = True
+       user.is_superuser = True
+       user.is_admin = True
+       user.save(using=self._db)
+       return user
 
 
 
@@ -51,7 +77,7 @@ def upload_to(instance, filename):
     return 'profile_pics/{filename}'.format(filename=filename)
 
 
-class CustomerAccount(AbstractBaseUser):
+class CustomerAccount(AbstractBaseUser, PermissionsMixin):
     nric = models.CharField(max_length=9, unique=True, primary_key=True, validators=[nric_validator])
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -71,7 +97,7 @@ class CustomerAccount(AbstractBaseUser):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["first_name", "last_name", "age", "contact_no", "address", "nric", "password"]
 
     def __str__(self):
         return f'{self.nric}, {self.email}, {self.first_name}'
