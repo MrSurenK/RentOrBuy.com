@@ -20,7 +20,7 @@ class CustomerAccountAdmin(UserAdmin):
             None,
             {
                 "classes": ["wide"],
-                "fields": ["email", "nric", "password1", "password2",'first_name', 'last_name', 'age', 'contact_no', 'address', ],
+                "fields": ["email", "nric", "password1", "password2",'first_name', 'last_name', 'age', 'contact_no', 'address'],
             },
         ),
     ]
