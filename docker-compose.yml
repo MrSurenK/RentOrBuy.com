@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  frontend:
+    container_name: frontend
+    build: ./rentorbuy_frontEnd
+    volumes:
+      - ./rentorbuy_frontEnd:/frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_SERVER=backend:8000
+
+  backend:
+    container_name: backend
+    build: ./django/rentorbuy
+    volumes:
+      - ./django/rentorbuy:/backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db_postgres
+
+  db_postgres:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=rentorbuy
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5432:5432"
+volumes:
+  postgres_data:

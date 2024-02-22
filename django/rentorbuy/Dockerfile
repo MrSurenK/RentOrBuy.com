@@ -1,16 +1,19 @@
 FROM python:3.11
 
 ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERD=1
+ENV PYTHONUNBUFFERED=1
 
-WORKDIR /djangoBackend
+WORKDIR /backend
 
-COPY . /djangoBackend/
+COPY Pipfile Pipfile.lock requirements.txt /backend/
 
 RUN pip install pipenv
 RUN pipenv install
-RUN pip install -r requirement.txt
+RUN pip install -r requirements.txt
 
+COPY . /backend/
+
+CMD ["python3","manage.py","runserver"]
 
 
 
