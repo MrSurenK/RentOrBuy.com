@@ -33,6 +33,7 @@ const useFetch = () => {
     } catch (error) {
       // Log the error for debugging purposes
       console.error("Fetch error:", error);
+      console.log(import.meta.env.VITE_SERVER + endpoint);
 
       // If the error is due to JSON parsing failure, it may be due to a network issue or server error
       if (error.message && error.message.includes("JSON")) {

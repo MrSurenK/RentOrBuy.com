@@ -44,7 +44,7 @@ const Home = () => {
     const res = await fetchData("/dealer/cars/rentals", "GET", undefined);
     if (res.ok) {
       setRentals(res.data);
-      // console.log(res.data);
+      console.log(res.data);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
@@ -52,7 +52,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log(userCtx);
+    // console.log(userCtx);
     getRentals();
     getSales();
   }, []);
