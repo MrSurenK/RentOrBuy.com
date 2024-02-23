@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-fc73v1@jf$w!i&njsq6@ehsn!9%(zkdum4+9vgn2%(w()b)+xp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
@@ -108,8 +108,8 @@ DATABASES = {
         'NAME': 'rentorbuy',
         'USER': 'postgres',
         'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '',  #default postgresql port (5432)
+        'HOST': 'db_postgres',
+        'PORT': 5432,  #default postgresql port (5432)
     }
 }
 
