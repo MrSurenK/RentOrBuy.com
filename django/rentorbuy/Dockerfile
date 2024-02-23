@@ -13,7 +13,7 @@ RUN pip install -r requirements.txt
 
 COPY . /backend/
 
-CMD ["python3","manage.py","runserver"]
+CMD ["pipenv", "run", "python3","manage.py","runserver"]
 
 
 
