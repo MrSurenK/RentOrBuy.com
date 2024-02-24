@@ -32,7 +32,18 @@ Online car dealer rental and sales full stack project.
    >Login Page
    ![Login Page](rentorbuy_frontEnd/src/screenshots/Login.png)
 
+## How to run application dev environment on Docker
 
+1. Navigate to the root directory on the app (same loc as the docker.yml file is located) 
+2. run the following command
+   ```
+      docker-compose up -d 
+   ```
+3. Now enter the command shell in the backend container to migrate data from django ORM (Only for first run)
+   ```
+      pipenv run python3 manage.py migrate
+   ```
+4.  No other set up required as docker will handle the creation of the database
 
 
 ## API endpoints (11 endpoints consumed)
